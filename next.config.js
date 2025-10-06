@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Azure App Service configuration
-  output: 'standalone',
   // Ensure proper static file serving
   trailingSlash: false,
   // Optimize for Azure deployment
