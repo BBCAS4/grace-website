@@ -1,0 +1,286 @@
+"use client";
+
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Phone, Mail, MapPin, CheckCircle2, ArrowRight, Stethoscope, ShieldCheck, HeartHandshake, FileText, Calendar } from "lucide-react";
+import { Input } from "../components/ui/input";
+import { Textarea } from "../components/ui/textarea";
+import { Button } from "../components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+
+// Inline SVG logo (wordmark + emblem) to ensure it renders without external assets
+function GraceLogo({ className = "w-40" }: { className?: string }) {
+  return (
+    <div className={`flex items-center gap-3 ${className}`}>
+      <svg width="40" height="40" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="GRACE emblem">
+        <circle cx="32" cy="32" r="30" stroke="#0A3C5F" strokeWidth="4" />
+        <path d="M18 33c0-8 6.5-15 14.5-15S47 25 47 33" stroke="#22A39A" strokeWidth="4" strokeLinecap="round"/>
+        <path d="M18 33c0 8 6.5 15 14.5 15S47 41 47 33" stroke="#0A3C5F" strokeWidth="4" strokeLinecap="round"/>
+      </svg>
+      <div className="leading-tight">
+        <div className="text-xl font-semibold tracking-wide text-[#0A3C5F]">GRACE</div>
+        <div className="text-[11px] uppercase tracking-[0.2em] text-slate-500">Integrated Health</div>
+      </div>
+    </div>
+  );
+}
+
+export default function Page() {
+  const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  return (
+    <div className="min-h-screen bg-white text-slate-800">
+      {/* Header */}
+      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur border-b">
+        <div className="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+          <GraceLogo />
+          <nav className="hidden md:flex items-center gap-6 text-sm">
+            <a href="#services" className="hover:text-[#0A3C5F]">Services</a>
+            <a href="#about" className="hover:text-[#0A3C5F]">About</a>
+            <a href="#process" className="hover:text-[#0A3C5F]">Process</a>
+            <a href="#contact" className="hover:text-[#0A3C5F]">Contact</a>
+          </nav>
+          <a href="#contact" className="ml-4 hidden sm:inline-block">
+            <Button className="rounded-2xl px-5">Book a Consultation</Button>
+          </a>
+        </div>
+      </header>
+
+      {/* Hero */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#E6F4F2] via-white to-white"/>
+        <div className="relative mx-auto max-w-6xl px-4 py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
+          <div>
+            <motion.h1 initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} transition={{duration:0.6}} className="text-3xl md:text-5xl font-semibold text-slate-900">
+              Evidence‑based care for older adults.
+            </motion.h1>
+            <p className="mt-4 text-slate-600 md:text-lg">
+              GRACE (Geriatric Residential Aged Care Evaluations) provides modern, nurse practitioner‑led assessments and integrated care planning for residents, families, RACFs and GPs.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a href="#contact"><Button className="rounded-2xl">Book an Assessment <ArrowRight className="ml-2 h-4 w-4"/></Button></a>
+              <a href="#services"><Button variant="outline" className="rounded-2xl">Our Services</Button></a>
+            </div>
+            <div className="mt-6 flex flex-wrap gap-6 text-sm text-slate-600">
+              <div className="flex items-center gap-2"><ShieldCheck className="h-5 w-5 text-[#0A3C5F]"/> PBS & guideline‑aligned</div>
+              <div className="flex items-center gap-2"><Stethoscope className="h-5 w-5 text-[#22A39A]"/> NP‑led, GP‑collaborative</div>
+              <div className="flex items-center gap-2"><HeartHandshake className="h-5 w-5 text-[#0A3C5F]"/> Family‑centred</div>
+            </div>
+          </div>
+          <Card className="rounded-2xl shadow-lg">
+            <CardHeader>
+              <CardTitle className="text-[#0A3C5F]">Rapid Referral</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-sm text-slate-600 mb-3">Submit a quick referral and we'll contact you within one business day.</p>
+              <form onSubmit={async (e)=>{
+                e.preventDefault();
+                setLoading(true);
+                setError("");
+                const formData = new FormData(e.currentTarget);
+                try {
+                  const res = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      name: formData.get('name'),
+                      email: formData.get('email'),
+                      phone: formData.get('phone'),
+                      referralReason: formData.get('referralReason')
+                    })
+                  });
+                  
+                  let data;
+                  try {
+                    data = await res.json();
+                  } catch {
+                    throw new Error('Server error. Please check your API configuration.');
+                  }
+                  
+                  if (!res.ok) {
+                    throw new Error(data.error || 'Failed to send');
+                  }
+                  setSent(true);
+                  if (e.currentTarget) {
+                    e.currentTarget.reset();
+                  }
+                } catch (err) {
+                  setError(err instanceof Error ? err.message : "Failed to send. Please try again or contact us directly.");
+                } finally {
+                  setLoading(false);
+                }
+              }} className="space-y-3">
+                <Input required placeholder="Your name" name="name" />
+                <Input type="email" required placeholder="Email" name="email" />
+                <Input placeholder="Phone" name="phone" />
+                <Textarea placeholder="Brief reason for referral" rows={4} name="referralReason" />
+                <Button type="submit" disabled={loading} className="w-full rounded-2xl">
+                  {loading ? 'Sending...' : 'Send referral'}
+                </Button>
+                {sent && <p className="text-sm text-green-700 flex items-center gap-2"><CheckCircle2 className="h-4 w-4"/> Thanks! We'll be in touch shortly.</p>}
+                {error && <p className="text-sm text-red-600">{error}</p>}
+              </form>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Services */}
+      <section id="services" className="mx-auto max-w-6xl px-4 py-16">
+        <h2 className="text-2xl md:text-3xl font-semibold text-slate-900">Services</h2>
+        <p className="mt-2 text-slate-600 max-w-2xl">Comprehensive assessments and ongoing support tailored to residential aged‑care environments.</p>
+        <div className="mt-8 grid md:grid-cols-3 gap-6">
+          {[
+            {icon: <HeartHandshake className="h-6 w-6"/>, title: "Residential Aged Care Facilities", desc: "Specialising in respite admission, transitional care, palliative care and medication charts."},
+            {icon: <FileText className="h-6 w-6"/>, title: "Comprehensive Health Assessment", desc: "Holistic H&P, medication review, diagnostics, and evidence‑based plan."},
+            {icon: <ShieldCheck className="h-6 w-6"/>, title: "Behaviour Support", desc: "Structured plans, non‑pharmacological strategies, and review of antipsychotic use."},
+            {icon: <Stethoscope className="h-6 w-6"/>, title: "Chronic Disease Management", desc: "Heart failure, pain, falls, skin integrity, and palliative care pathways."}
+          ].map((s, i)=> (
+            <Card key={i} className="rounded-2xl hover:shadow-md transition-shadow">
+              <CardHeader className="flex flex-row items-center gap-3">
+                <div className="p-2 rounded-xl bg-[#E6F4F2] text-[#0A3C5F]">{s.icon}</div>
+                <CardTitle>{s.title}</CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm text-slate-600">{s.desc}</CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* About */}
+      <section id="about" className="mx-auto max-w-6xl px-4 py-16">
+        <div className="grid md:grid-cols-2 gap-10 items-center">
+          <div>
+            <h2 className="text-2xl md:text-3xl font-semibold text-slate-900">About GRACE</h2>
+            <p className="mt-3 text-slate-600">
+              GRACE stands for <strong>Geriatric Residential Aged Care Evaluations</strong>. We partner with RACFs, GPs and families to deliver safe, timely, guideline‑aligned care. Our approach blends compassionate bedside practice with robust clinical governance.
+            </p>
+            <ul className="mt-4 space-y-2 text-slate-700">
+              <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-5 w-5 text-[#22A39A]"/> AHPRA‑endorsed Nurse Practitioner service model</li>
+              <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-5 w-5 text-[#22A39A]"/> PBS‑aware prescribing and deprescribing where appropriate</li>
+              <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-5 w-5 text-[#22A39A]"/> Clear documentation aligned to RACF workflows</li>
+            </ul>
+          </div>
+          <Card className="rounded-2xl">
+            <CardHeader>
+              <CardTitle className="text-[#0A3C5F]">Key Details</CardTitle>
+            </CardHeader>
+            <CardContent className="text-sm text-slate-700 space-y-2">
+              <div className="flex items-center gap-2"><Phone className="h-4 w-4"/> 0433 778 876</div>
+              <div className="flex items-center gap-2"><Mail className="h-4 w-4"/> NP@GRACEIntegratedHealth.com.au</div>
+              <div className="flex items-center gap-2"><MapPin className="h-4 w-4"/> Port Macquarie, NSW</div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      {/* Process */}
+      <section id="process" className="mx-auto max-w-6xl px-4 py-16">
+        <h2 className="text-2xl md:text-3xl font-semibold text-slate-900">How it works</h2>
+        <div className="mt-8 grid md:grid-cols-3 gap-6">
+          {[
+            {title: "Refer", desc: "RACF/GP sends referral with recent notes and medication chart.", icon: <FileText className="h-5 w-5"/>},
+            {title: "Assess", desc: "NP conducts bedside assessment, reviews meds, orders diagnostics as needed.", icon: <Stethoscope className="h-5 w-5"/>},
+            {title: "Plan & Review", desc: "Evidence‑based plan shared with GP & RACF; follow‑up and monitoring.", icon: <Calendar className="h-5 w-5"/>}
+          ].map((step, i) => (
+            <Card key={i} className="rounded-2xl">
+              <CardHeader className="flex flex-row items-center gap-3">
+                <div className="p-2 rounded-xl bg-[#E6F4F2] text-[#0A3C5F]">{step.icon}</div>
+                <CardTitle>{step.title}</CardTitle>
+              </CardHeader>
+              <CardContent className="text-sm text-slate-600">{step.desc}</CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="relative">
+        <div className="absolute inset-0 -z-10 bg-gradient-to-t from-[#E6F4F2] to-transparent"/>
+        <div className="mx-auto max-w-6xl px-4 py-16">
+          <div className="grid md:grid-cols-2 gap-8 items-start">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-semibold text-slate-900">Contact</h2>
+              <p className="mt-2 text-slate-600 max-w-prose">Have a resident who would benefit from a comprehensive review? Send a message and we'll respond within one business day.</p>
+              <div className="mt-6 space-y-2 text-slate-700">
+                <div className="flex items-center gap-2"><Phone className="h-5 w-5 text-[#0A3C5F]"/> 0433 778 876</div>
+                <div className="flex items-center gap-2"><Mail className="h-5 w-5 text-[#0A3C5F]"/> NP@GRACEIntegratedHealth.com.au</div>
+                <div className="flex items-center gap-2"><MapPin className="h-5 w-5 text-[#0A3C5F]"/> Port Macquarie, NSW</div>
+              </div>
+            </div>
+            <Card className="rounded-2xl shadow-lg">
+              <CardHeader>
+                <CardTitle className="text-[#0A3C5F]">Send a message</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={async (e)=>{
+                  e.preventDefault();
+                  setLoading(true);
+                  setError("");
+                  const formData = new FormData(e.currentTarget);
+                  try {
+                    const res = await fetch('/api/contact', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        firstName: formData.get('firstName'),
+                        lastName: formData.get('lastName'),
+                        email: formData.get('email'),
+                        phone: formData.get('phone'),
+                        message: formData.get('message')
+                      })
+                    });
+                    
+                    let data;
+                    try {
+                      data = await res.json();
+                    } catch {
+                      throw new Error('Server error. Please check your API configuration.');
+                    }
+                    
+                    if (!res.ok) {
+                      throw new Error(data.error || 'Failed to send');
+                    }
+                    setSent(true);
+                    if (e.currentTarget) {
+                      e.currentTarget.reset();
+                    }
+                  } catch (err) {
+                    setError(err instanceof Error ? err.message : "Failed to send. Please try again or contact us directly.");
+                  } finally {
+                    setLoading(false);
+                  }
+                }} className="space-y-3">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <Input required placeholder="First name" name="firstName"/>
+                    <Input required placeholder="Last name" name="lastName"/>
+                  </div>
+                  <Input type="email" required placeholder="Email" name="email"/>
+                  <Input placeholder="Phone" name="phone"/>
+                  <Textarea placeholder="How can we help?" rows={4} name="message"/>
+                  <Button type="submit" disabled={loading} className="rounded-2xl w-full">
+                    {loading ? 'Sending...' : 'Submit'}
+                  </Button>
+                  {sent && <p className="text-sm text-green-700 flex items-center gap-2"><CheckCircle2 className="h-4 w-4"/> Thanks! Your message has been sent.</p>}
+                  {error && <p className="text-sm text-red-600">{error}</p>}
+                </form>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t">
+        <div className="mx-auto max-w-6xl px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+          <GraceLogo className="w-36" />
+          <div className="text-xs text-slate-500 text-center md:text-right">
+            © {new Date().getFullYear()} GRACE Integrated Health. All rights reserved. | <a href="/privacy" className="hover:underline">Privacy</a> | <a href="/terms" className="hover:underline">Terms</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
