@@ -75,41 +75,26 @@ export default function Page() {
             </CardHeader>
             <CardContent>
               <p className="text-sm text-slate-600 mb-3">Submit a quick referral and we'll contact you within one business day.</p>
-              <form onSubmit={async (e)=>{
+              <form onSubmit={(e)=>{
                 e.preventDefault();
                 setLoading(true);
                 setError("");
                 const formData = new FormData(e.currentTarget);
-                try {
-                  const res = await fetch('/api/contact', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                      name: formData.get('name'),
-                      email: formData.get('email'),
-                      phone: formData.get('phone'),
-                      referralReason: formData.get('referralReason')
-                    })
-                  });
-                  
-                  let data;
-                  try {
-                    data = await res.json();
-                  } catch {
-                    throw new Error('Server error. Please check your API configuration.');
-                  }
-                  
-                  if (!res.ok) {
-                    throw new Error(data.error || 'Failed to send');
-                  }
-                  setSent(true);
-                  if (e.currentTarget) {
-                    e.currentTarget.reset();
-                  }
-                } catch (err) {
-                  setError(err instanceof Error ? err.message : "Failed to send. Please try again or contact us directly.");
-                } finally {
-                  setLoading(false);
+                const name = formData.get('name') as string;
+                const email = formData.get('email') as string;
+                const phone = formData.get('phone') as string;
+                const referralReason = formData.get('referralReason') as string;
+                
+                const subject = `Referral from ${name}`;
+                const body = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\nReferral Reason:\n${referralReason}`;
+                
+                const mailtoLink = `mailto:NP@GRACEIntegratedHealth.com.au?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                window.open(mailtoLink);
+                
+                setSent(true);
+                setLoading(false);
+                if (e.currentTarget) {
+                  e.currentTarget.reset();
                 }
               }} className="space-y-3">
                 <Input required placeholder="Your name" name="name" />
@@ -215,42 +200,27 @@ export default function Page() {
                 <CardTitle className="text-[#0A3C5F]">Send a message</CardTitle>
               </CardHeader>
               <CardContent>
-                <form onSubmit={async (e)=>{
+                <form onSubmit={(e)=>{
                   e.preventDefault();
                   setLoading(true);
                   setError("");
                   const formData = new FormData(e.currentTarget);
-                  try {
-                    const res = await fetch('/api/contact', {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({
-                        firstName: formData.get('firstName'),
-                        lastName: formData.get('lastName'),
-                        email: formData.get('email'),
-                        phone: formData.get('phone'),
-                        message: formData.get('message')
-                      })
-                    });
-                    
-                    let data;
-                    try {
-                      data = await res.json();
-                    } catch {
-                      throw new Error('Server error. Please check your API configuration.');
-                    }
-                    
-                    if (!res.ok) {
-                      throw new Error(data.error || 'Failed to send');
-                    }
-                    setSent(true);
-                    if (e.currentTarget) {
-                      e.currentTarget.reset();
-                    }
-                  } catch (err) {
-                    setError(err instanceof Error ? err.message : "Failed to send. Please try again or contact us directly.");
-                  } finally {
-                    setLoading(false);
+                  const firstName = formData.get('firstName') as string;
+                  const lastName = formData.get('lastName') as string;
+                  const email = formData.get('email') as string;
+                  const phone = formData.get('phone') as string;
+                  const message = formData.get('message') as string;
+                  
+                  const subject = `Contact from ${firstName} ${lastName}`;
+                  const body = `Name: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone}\n\nMessage:\n${message}`;
+                  
+                  const mailtoLink = `mailto:NP@GRACEIntegratedHealth.com.au?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                  window.open(mailtoLink);
+                  
+                  setSent(true);
+                  setLoading(false);
+                  if (e.currentTarget) {
+                    e.currentTarget.reset();
                   }
                 }} className="space-y-3">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
