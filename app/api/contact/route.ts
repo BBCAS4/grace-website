@@ -40,12 +40,14 @@ export async function POST(request: Request) {
     });
   } catch (error: any) {
     console.error('Error sending email:', error);
+    console.error('Full error details:', JSON.stringify(error, null, 2));
     
     // Return a graceful error that won't break the frontend
     return NextResponse.json(
       { 
         error: 'Failed to send email',
-        details: error.message 
+        details: error.message,
+        hint: 'Check server console for details. Common issue: Recipient email needs verification in Resend dashboard.'
       },
       { status: 500 }
     );
