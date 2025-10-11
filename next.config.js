@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Removed 'output: export' to enable API routes
+  output: 'standalone',
   trailingSlash: true,
   images: {
     unoptimized: true
