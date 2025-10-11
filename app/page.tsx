@@ -1,12 +1,8 @@
-"use client";
-
-import { useState } from "react";
-import { motion } from "framer-motion";
 import { Phone, Mail, MapPin, CheckCircle2, ArrowRight, Stethoscope, ShieldCheck, HeartHandshake, FileText, Calendar } from "lucide-react";
-import { Input } from "../components/ui/input";
-import { Textarea } from "../components/ui/textarea";
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
+import { ReferralForm } from "../components/referral-form";
+import { ContactForm } from "../components/contact-form";
 
 // Inline SVG logo (wordmark + emblem) to ensure it renders without external assets
 function GraceLogo({ className = "w-40" }: { className?: string }) {
@@ -26,10 +22,6 @@ function GraceLogo({ className = "w-40" }: { className?: string }) {
 }
 
 export default function Page() {
-  const [sent, setSent] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
   return (
     <div className="min-h-screen bg-white text-slate-800">
       {/* Header */}
@@ -53,9 +45,9 @@ export default function Page() {
         <div className="absolute inset-0 bg-gradient-to-br from-[#E6F4F2] via-white to-white"/>
         <div className="relative mx-auto max-w-6xl px-4 py-16 md:py-24 grid md:grid-cols-2 gap-10 items-center">
           <div>
-            <motion.h1 initial={{opacity:0, y:10}} animate={{opacity:1, y:0}} transition={{duration:0.6}} className="text-3xl md:text-5xl font-semibold text-slate-900">
+            <h1 className="text-3xl md:text-5xl font-semibold text-slate-900 animate-fade-in">
               Evidence‑based care for older adults.
-            </motion.h1>
+            </h1>
             <p className="mt-4 text-slate-600 md:text-lg">
               GRACE (Geriatric Residential Aged Care Evaluations) provides modern, nurse practitioner‑led assessments and integrated care planning for residents, families, RACFs and GPs.
             </p>
@@ -69,46 +61,7 @@ export default function Page() {
               <div className="flex items-center gap-2"><HeartHandshake className="h-5 w-5 text-[#0A3C5F]"/> Family‑centred</div>
             </div>
           </div>
-          <Card className="rounded-2xl shadow-lg">
-            <CardHeader>
-              <CardTitle className="text-[#0A3C5F]">Rapid Referral</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-slate-600 mb-3">Submit a quick referral and we'll contact you within one business day.</p>
-              <form onSubmit={(e)=>{
-                e.preventDefault();
-                setLoading(true);
-                setError("");
-                const formData = new FormData(e.currentTarget);
-                const name = formData.get('name') as string;
-                const email = formData.get('email') as string;
-                const phone = formData.get('phone') as string;
-                const referralReason = formData.get('referralReason') as string;
-                
-                const subject = `Referral from ${name}`;
-                const body = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\nReferral Reason:\n${referralReason}`;
-                
-                const mailtoLink = `mailto:NP@GRACEIntegratedHealth.com.au?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                window.open(mailtoLink);
-                
-                setSent(true);
-                setLoading(false);
-                if (e.currentTarget) {
-                  e.currentTarget.reset();
-                }
-              }} className="space-y-3">
-                <Input required placeholder="Your name" name="name" />
-                <Input type="email" required placeholder="Email" name="email" />
-                <Input placeholder="Phone" name="phone" />
-                <Textarea placeholder="Brief reason for referral" rows={4} name="referralReason" />
-                <Button type="submit" disabled={loading} className="w-full rounded-2xl">
-                  {loading ? 'Sending...' : 'Send referral'}
-                </Button>
-                {sent && <p className="text-sm text-green-700 flex items-center gap-2"><CheckCircle2 className="h-4 w-4"/> Thanks! We'll be in touch shortly.</p>}
-                {error && <p className="text-sm text-red-600">{error}</p>}
-              </form>
-            </CardContent>
-          </Card>
+          <ReferralForm />
         </div>
       </section>
 
@@ -195,49 +148,7 @@ export default function Page() {
                 <div className="flex items-center gap-2"><MapPin className="h-5 w-5 text-[#0A3C5F]"/> Port Macquarie, NSW</div>
               </div>
             </div>
-            <Card className="rounded-2xl shadow-lg">
-              <CardHeader>
-                <CardTitle className="text-[#0A3C5F]">Send a message</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={(e)=>{
-                  e.preventDefault();
-                  setLoading(true);
-                  setError("");
-                  const formData = new FormData(e.currentTarget);
-                  const firstName = formData.get('firstName') as string;
-                  const lastName = formData.get('lastName') as string;
-                  const email = formData.get('email') as string;
-                  const phone = formData.get('phone') as string;
-                  const message = formData.get('message') as string;
-                  
-                  const subject = `Contact from ${firstName} ${lastName}`;
-                  const body = `Name: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone}\n\nMessage:\n${message}`;
-                  
-                  const mailtoLink = `mailto:NP@GRACEIntegratedHealth.com.au?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-                  window.open(mailtoLink);
-                  
-                  setSent(true);
-                  setLoading(false);
-                  if (e.currentTarget) {
-                    e.currentTarget.reset();
-                  }
-                }} className="space-y-3">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <Input required placeholder="First name" name="firstName"/>
-                    <Input required placeholder="Last name" name="lastName"/>
-                  </div>
-                  <Input type="email" required placeholder="Email" name="email"/>
-                  <Input placeholder="Phone" name="phone"/>
-                  <Textarea placeholder="How can we help?" rows={4} name="message"/>
-                  <Button type="submit" disabled={loading} className="rounded-2xl w-full">
-                    {loading ? 'Sending...' : 'Submit'}
-                  </Button>
-                  {sent && <p className="text-sm text-green-700 flex items-center gap-2"><CheckCircle2 className="h-4 w-4"/> Thanks! Your message has been sent.</p>}
-                  {error && <p className="text-sm text-red-600">{error}</p>}
-                </form>
-              </CardContent>
-            </Card>
+            <ContactForm />
           </div>
         </div>
       </section>
