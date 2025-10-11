@@ -1,10 +1,10 @@
 {
   "appService.zipIgnorePattern": [
-    "node_modules{,/**}",
     ".vscode{,/**}",
-    ".git{,/**}"
+    ".git{,/**}",
+    ".gitignore",
+    "*.md"
   ],
   "appService.deploySubpath": ".",
-  "appService.defaultWebAppToDeploy": "/subscriptions/4fd17b13-8263-45c1-9d4b-ab7a8a5812a6/resourceGroups/GraceWebsite-RG/providers/Microsoft.Web/sites/GraceIntegratedHealth",
-  "appService.enableRemoteBuild": true
+  "appService.defaultWebAppToDeploy": "/subscriptions/4fd17b13-8263-45c1-9d4b-ab7a8a5812a6/resourceGroups/GraceWebsite-RG/providers/Microsoft.Web/sites/GraceIntegratedHealth"
 }
