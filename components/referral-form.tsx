@@ -19,26 +19,45 @@ export function ReferralForm() {
       </CardHeader>
       <CardContent>
         <p className="text-sm text-slate-600 mb-3">Submit a quick referral and we'll contact you within one business day.</p>
-        <form onSubmit={(e)=>{
+        <form onSubmit={async (e)=>{
           e.preventDefault();
           setLoading(true);
           setError("");
+          setSent(false);
+          
           const formData = new FormData(e.currentTarget);
           const name = formData.get('name') as string;
           const email = formData.get('email') as string;
           const phone = formData.get('phone') as string;
           const referralReason = formData.get('referralReason') as string;
           
-          const subject = `Referral from ${name}`;
-          const body = `Name: ${name}\nEmail: ${email}\nPhone: ${phone}\n\nReferral Reason:\n${referralReason}`;
-          
-          const mailtoLink = `mailto:NP@GRACEIntegratedHealth.com.au?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-          window.open(mailtoLink);
-          
-          setSent(true);
-          setLoading(false);
-          if (e.currentTarget) {
-            e.currentTarget.reset();
+          try {
+            const response = await fetch('/api/referral', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                name,
+                email,
+                phone,
+                referralReason,
+              }),
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+              setSent(true);
+              e.currentTarget.reset();
+            } else {
+              setError(data.error || 'Failed to send referral. Please try again.');
+            }
+          } catch (err) {
+            console.error('Error submitting referral:', err);
+            setError('Failed to send referral. Please try again.');
+          } finally {
+            setLoading(false);
           }
         }} className="space-y-3">
           <Input required placeholder="Your name" name="name" />

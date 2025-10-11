@@ -18,10 +18,12 @@ export function ContactForm() {
         <CardTitle className="text-[#0A3C5F]">Send a message</CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={(e)=>{
+        <form onSubmit={async (e)=>{
           e.preventDefault();
           setLoading(true);
           setError("");
+          setSent(false);
+          
           const formData = new FormData(e.currentTarget);
           const firstName = formData.get('firstName') as string;
           const lastName = formData.get('lastName') as string;
@@ -29,16 +31,34 @@ export function ContactForm() {
           const phone = formData.get('phone') as string;
           const message = formData.get('message') as string;
           
-          const subject = `Contact from ${firstName} ${lastName}`;
-          const body = `Name: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone}\n\nMessage:\n${message}`;
-          
-          const mailtoLink = `mailto:NP@GRACEIntegratedHealth.com.au?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-          window.open(mailtoLink);
-          
-          setSent(true);
-          setLoading(false);
-          if (e.currentTarget) {
-            e.currentTarget.reset();
+          try {
+            const response = await fetch('/api/contact', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                firstName,
+                lastName,
+                email,
+                phone,
+                message,
+              }),
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+              setSent(true);
+              e.currentTarget.reset();
+            } else {
+              setError(data.error || 'Failed to send message. Please try again.');
+            }
+          } catch (err) {
+            console.error('Error submitting form:', err);
+            setError('Failed to send message. Please try again.');
+          } finally {
+            setLoading(false);
           }
         }} className="space-y-3">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
