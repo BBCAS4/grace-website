@@ -32,11 +32,19 @@ jobs:
 
     - name: Prepare deployment package
       run: |
-        mkdir -p deploy
+        mkdir -p deploy/.next
+        # Copy standalone server and node_modules
         cp -r .next/standalone/* deploy/
-        cp -r .next/static deploy/.next/static
-        cp -r public deploy/public
+        # Copy static assets
+        mkdir -p deploy/.next/static
+        cp -r .next/static/* deploy/.next/static/
+        # Copy public folder
+        cp -r public deploy/
+        # Copy package.json
         cp package.json deploy/
+        # Verify structure
+        ls -la deploy/
+        ls -la deploy/.next/
         
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
