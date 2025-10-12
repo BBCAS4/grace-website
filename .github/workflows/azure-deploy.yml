@@ -32,19 +32,32 @@ jobs:
 
     - name: Prepare deployment package
       run: |
+        # Create deployment directory
+        mkdir -p deploy
+        
+        # Copy standalone output (includes server.js and necessary node_modules)
+        cp -r .next/standalone/. deploy/
+        
+        # Create .next directory if it doesn't exist
         mkdir -p deploy/.next
-        # Copy standalone server and node_modules
-        cp -r .next/standalone/* deploy/
-        # Copy static assets
-        mkdir -p deploy/.next/static
-        cp -r .next/static/* deploy/.next/static/
+        
+        # Copy static files - Next.js expects these in .next/static
+        if [ -d ".next/static" ]; then
+          cp -r .next/static deploy/.next/
+        fi
+        
         # Copy public folder
-        cp -r public deploy/
-        # Copy package.json
-        cp package.json deploy/
-        # Verify structure
+        if [ -d "public" ]; then
+          cp -r public deploy/
+        fi
+        
+        # Verify the deployment structure
+        echo "=== Deployment Structure ==="
         ls -la deploy/
-        ls -la deploy/.next/
+        echo "=== .next directory ==="
+        ls -la deploy/.next/ || echo "No .next directory"
+        echo "=== Server file ===" 
+        ls -la deploy/.next/standalone/server.js || ls -la deploy/server.js || echo "Server file not found"
         
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
