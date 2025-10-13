@@ -49,7 +49,7 @@ export default function Page() {
               Evidence‑based care for older adults.
             </h1>
             <p className="mt-4 text-slate-600 md:text-lg">
-              GRACE (Geriatric Residential Aged Care Evaluations) provides modern, nurse practitioner‑led assessments and integrated care planning for residents, families, RACFs and GPs.
+              GRACE (Geriatric Residential Aged Care Evaluations) provides modern, Nurse practitioner‑led assessments and integrated care planning for residents, families, RACFs and GPs.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <a href="#contact"><Button className="rounded-2xl">Book an Assessment <ArrowRight className="ml-2 h-4 w-4"/></Button></a>

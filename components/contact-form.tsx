@@ -79,7 +79,6 @@ export function ContactForm() {
             <input
               type="file"
               multiple
-              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt"
               onChange={(e) => {
                 const files = Array.from(e.target.files || []);
                 setFileError("");
