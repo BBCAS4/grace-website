@@ -19,7 +19,7 @@ export async function POST(request: Request) {
 
     // Send email using Resend
     const data = await resend.emails.send({
-      from: 'GRACE Health <np@graceintegratedhealth.com.au>',
+      from: 'GRACE Health <NP@GRACEIntegratedHealth.com.au>',
       to: 'NP@GRACEIntegratedHealth.com.au',
       subject: `Contact from ${firstName} ${lastName}`,
       text: `Name: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone || 'Not provided'}\n\nMessage:\n${message}`,
