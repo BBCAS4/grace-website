@@ -15,6 +15,8 @@ export async function POST(request: Request) {
     }
 
     // Initialize Resend client at runtime (not at module load time)
+    console.log('RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
+    console.log('RESEND_API_KEY length:', process.env.RESEND_API_KEY?.length || 0);
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     // Send email using Resend
@@ -34,6 +36,7 @@ export async function POST(request: Request) {
     });
 
     console.log('Email sent successfully:', data);
+    console.log('Email ID:', data.id);
     
     return NextResponse.json({ 
       success: true,
