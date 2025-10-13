@@ -22,7 +22,8 @@ export async function POST(request: Request) {
 
     // Process uploaded files
     const attachments = [];
-    for (const [key, value] of formData.entries()) {
+    const entries = Array.from(formData.entries());
+    for (const [key, value] of entries) {
       if (key.startsWith('file_') && value instanceof File) {
         const buffer = await value.arrayBuffer();
         attachments.push({
