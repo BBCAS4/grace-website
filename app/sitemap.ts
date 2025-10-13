@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   // Use Azure domain for now, can be updated to custom domain later
-  const baseUrl = 'https://graceintegratedhealth.azurewebsites.net'
+  const baseUrl = 'https://graceintegratedhealth-g7ewbyc2eghhezga.australiaeast-01.azurewebsites.net'
   
   return [
     {
