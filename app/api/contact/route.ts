@@ -15,13 +15,11 @@ export async function POST(request: Request) {
     }
 
     // Initialize Resend client at runtime (not at module load time)
-    console.log('RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
-    console.log('RESEND_API_KEY length:', process.env.RESEND_API_KEY?.length || 0);
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     // Send email using Resend
     const data = await resend.emails.send({
-      from: 'GRACE Health <onboarding@resend.dev>',
+      from: 'GRACE Health <np@graceintegratedhealth.com.au>',
       to: 'NP@GRACEIntegratedHealth.com.au',
       subject: `Contact from ${firstName} ${lastName}`,
       text: `Name: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone || 'Not provided'}\n\nMessage:\n${message}`,
@@ -36,7 +34,6 @@ export async function POST(request: Request) {
     });
 
     console.log('Email sent successfully:', data);
-    console.log('Email ID:', data.data?.id);
     
     return NextResponse.json({ 
       success: true,
