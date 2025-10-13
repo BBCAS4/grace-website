@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { CheckCircle2, ArrowRight } from "lucide-react";
+import { useAnalytics } from "./analytics";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Button } from "./ui/button";
@@ -11,6 +12,8 @@ export function ReferralForm() {
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const { trackEvent } = useAnalytics();
 
   return (
     <Card className="rounded-2xl shadow-lg">
@@ -26,24 +29,21 @@ export function ReferralForm() {
           setError("");
           setSent(false);
           
-          const formData = new FormData(form);
-          const name = formData.get('name') as string;
-          const email = formData.get('email') as string;
-          const phone = formData.get('phone') as string;
-          const referralReason = formData.get('referralReason') as string;
-          
           try {
+            const formData = new FormData();
+            formData.append('name', (form.querySelector('[name="name"]') as HTMLInputElement)?.value || '');
+            formData.append('email', (form.querySelector('[name="email"]') as HTMLInputElement)?.value || '');
+            formData.append('phone', (form.querySelector('[name="phone"]') as HTMLInputElement)?.value || '');
+            formData.append('referralReason', (form.querySelector('[name="referralReason"]') as HTMLTextAreaElement)?.value || '');
+            
+            // Add uploaded files
+            uploadedFiles.forEach((file, index) => {
+              formData.append(`file_${index}`, file);
+            });
+            
             const response = await fetch('/api/referral', {
               method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                name,
-                email,
-                phone,
-                referralReason,
-              }),
+              body: formData,
             });
             
             const data = await response.json();
@@ -51,12 +51,15 @@ export function ReferralForm() {
             if (response.ok) {
               setSent(true);
               form.reset();
+              setUploadedFiles([]);
+              trackEvent('form_submit', 'referral', 'success', uploadedFiles.length);
             } else {
               setError(data.error || 'Failed to send referral. Please try again.');
             }
           } catch (err) {
             console.error('Error submitting referral:', err);
             setError('Failed to send referral. Please try again.');
+            trackEvent('form_submit', 'referral', 'error');
           } finally {
             setLoading(false);
           }
@@ -65,6 +68,35 @@ export function ReferralForm() {
           <Input type="email" required placeholder="Email" name="email" />
           <Input placeholder="Phone" name="phone" />
           <Textarea placeholder="Brief reason for referral" rows={4} name="referralReason" />
+          
+          {/* File Upload Section */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-slate-700">Attach documents (optional)</label>
+            <input
+              type="file"
+              multiple
+              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt"
+              onChange={(e) => {
+                const files = Array.from(e.target.files || []);
+                setUploadedFiles(files);
+              }}
+              className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#E6F4F2] file:text-[#0A3C5F] hover:file:bg-[#22A39A] hover:file:text-white"
+            />
+            <p className="text-xs text-slate-500">PDF, DOC, DOCX, JPG, PNG, TXT files up to 10MB each</p>
+            {uploadedFiles.length > 0 && (
+              <div className="mt-2">
+                <p className="text-sm font-medium text-slate-700">Selected files:</p>
+                <ul className="text-sm text-slate-600">
+                  {uploadedFiles.map((file, index) => (
+                    <li key={index} className="flex items-center justify-between">
+                      <span>{file.name}</span>
+                      <span className="text-slate-400">({(file.size / 1024 / 1024).toFixed(1)}MB)</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
           <Button type="submit" disabled={loading} className="w-full rounded-2xl">
             {loading ? 'Sending...' : 'Send referral'}
           </Button>

@@ -3,8 +3,11 @@ import { Resend } from 'resend';
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const { name, email, phone, referralReason } = body;
+    const formData = await request.formData();
+    const name = formData.get('name') as string;
+    const email = formData.get('email') as string;
+    const phone = formData.get('phone') as string;
+    const referralReason = formData.get('referralReason') as string;
 
     // Validate required fields
     if (!name || !email || !referralReason) {
@@ -17,12 +20,24 @@ export async function POST(request: Request) {
     // Initialize Resend client at runtime (not at module load time)
     const resend = new Resend(process.env.RESEND_API_KEY);
 
+    // Process uploaded files
+    const attachments = [];
+    for (const [key, value] of formData.entries()) {
+      if (key.startsWith('file_') && value instanceof File) {
+        const buffer = await value.arrayBuffer();
+        attachments.push({
+          filename: value.name,
+          content: Buffer.from(buffer),
+        });
+      }
+    }
+
     // Send email using Resend
     const data = await resend.emails.send({
       from: 'GRACE Health <np@graceintegratedhealth.com.au>',
       to: 'NP@GRACEIntegratedHealth.com.au',
       subject: `Referral from ${name}`,
-      text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone || 'Not provided'}\n\nReferral Reason:\n${referralReason}`,
+      text: `Name: ${name}\nEmail: ${email}\nPhone: ${phone || 'Not provided'}\n\nReferral Reason:\n${referralReason}${attachments.length > 0 ? `\n\nAttachments: ${attachments.map(a => a.filename).join(', ')}` : ''}`,
       html: `
         <h2>New Referral Form Submission</h2>
         <p><strong>Name:</strong> ${name}</p>
@@ -30,7 +45,9 @@ export async function POST(request: Request) {
         <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
         <h3>Referral Reason:</h3>
         <p>${referralReason.replace(/\n/g, '<br>')}</p>
+        ${attachments.length > 0 ? `<h3>Attachments:</h3><ul>${attachments.map(a => `<li>${a.filename}</li>`).join('')}</ul>` : ''}
       `,
+      attachments,
     });
 
     console.log('Referral email sent successfully:', data);

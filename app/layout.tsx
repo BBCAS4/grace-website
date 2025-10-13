@@ -1,25 +1,82 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import { Analytics } from '../components/analytics';
+import { StructuredDataScript } from '../components/structured-data';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'GRACE Integrated Health - Evidence-based care for older adults',
-  description: 'GRACE (Geriatric Residential Aged Care Evaluations) provides modern, nurse practitioner‑led assessments and integrated care planning for residents, families, RACFs and GPs.',
-  verification: {
-    google: 't-kP7At1KFFh3tXk0uta-3YvhzAm9RwOMeiTZxCI-0Y',
+  title: 'GRACE Integrated Health | Nurse Practitioner-led Aged Care Services',
+  description: 'GRACE provides evidence-based, nurse practitioner-led assessments and integrated care planning for residential aged care facilities. PBS-aware, guideline-aligned care for older adults.',
+  keywords: 'aged care, nurse practitioner, geriatric care, residential aged care, health assessment, medication review, chronic disease management',
+  authors: [{ name: 'GRACE Integrated Health' }],
+  creator: 'GRACE Integrated Health',
+  publisher: 'GRACE Integrated Health',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
   },
-}
+  metadataBase: new URL('https://graceintegratedhealth-g7ewbyc2eghhezga.australiaeast-01.azurewebsites.net'),
+  alternates: {
+    canonical: '/',
+  },
+  openGraph: {
+    title: 'GRACE Integrated Health | Nurse Practitioner-led Aged Care Services',
+    description: 'Evidence-based care for older adults in residential aged care facilities. Comprehensive assessments, medication reviews, and chronic disease management.',
+    url: 'https://graceintegratedhealth-g7ewbyc2eghhezga.australiaeast-01.azurewebsites.net',
+    siteName: 'GRACE Integrated Health',
+    locale: 'en_AU',
+    type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'GRACE Integrated Health - Nurse Practitioner-led Aged Care Services',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'GRACE Integrated Health | Nurse Practitioner-led Aged Care Services',
+    description: 'Evidence-based care for older adults in residential aged care facilities.',
+    images: ['/og-image.jpg'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
+  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <meta name="theme-color" content="#0A3C5F" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
+      <body className={inter.className}>
+        <StructuredDataScript />
+        {children}
+        {gaId && <Analytics gaId={gaId} />}
+      </body>
     </html>
-  )
+  );
 }
