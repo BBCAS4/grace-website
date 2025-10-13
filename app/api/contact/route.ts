@@ -36,7 +36,7 @@ export async function POST(request: Request) {
     });
 
     console.log('Email sent successfully:', data);
-    console.log('Email ID:', data.id);
+    console.log('Email ID:', data.data?.id);
     
     return NextResponse.json({ 
       success: true,
