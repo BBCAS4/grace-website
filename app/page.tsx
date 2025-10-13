@@ -96,7 +96,7 @@ export default function Page() {
               GRACE stands for <strong>Geriatric Residential Aged Care Evaluations</strong>. We partner with RACFs, GPs and families to deliver safe, timely, guideline‑aligned care. Our approach blends compassionate bedside practice with robust clinical governance.
             </p>
             <ul className="mt-4 space-y-2 text-slate-700">
-              <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-5 w-5 text-[#22A39A]"/> AHPRA‑endorsed Nurse Practitioner service model</li>
+              <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-5 w-5 text-[#22A39A]"/> AHPRA‑endorsed Nurse practitioner service model</li>
               <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-5 w-5 text-[#22A39A]"/> PBS‑aware prescribing and deprescribing where appropriate</li>
               <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-5 w-5 text-[#22A39A]"/> Clear documentation aligned to RACF workflows</li>
             </ul>

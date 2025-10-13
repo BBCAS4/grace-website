@@ -48,7 +48,7 @@ export default function TermsPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-slate-900 mb-4">2. Description of Service</h2>
             <p className="text-slate-700 mb-4">
-              GRACE (Geriatric Residential Aged Care Evaluations) provides nurse practitioner-led assessments and integrated care planning for residents in residential aged care facilities. Our services include:
+              GRACE (Geriatric Residential Aged Care Evaluations) provides Nurse practitioner-led assessments and integrated care planning for residents in residential aged care facilities. Our services include:
             </p>
             <ul className="list-disc pl-6 text-slate-700 mb-4">
               <li>Comprehensive health assessments</li>
@@ -62,7 +62,7 @@ export default function TermsPage() {
           <section className="mb-8">
             <h2 className="text-2xl font-semibold text-slate-900 mb-4">3. Professional Standards</h2>
             <p className="text-slate-700 mb-4">
-              All services provided by GRACE Integrated Health are delivered by AHPRA-registered Nurse Practitioners who adhere to professional standards and guidelines. Our practitioners maintain current registration and continuing professional development requirements.
+              All services provided by GRACE Integrated Health are delivered by AHPRA-registered Nurse practitioners who adhere to professional standards and guidelines. Our practitioners maintain current registration and continuing professional development requirements.
             </p>
           </section>
 

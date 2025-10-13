@@ -39,7 +39,7 @@ export function generateStructuredData() {
     "numberOfEmployees": "1-10",
     "medicalSpecialty": [
       "Geriatric Medicine",
-      "Nurse Practitioner Services",
+      "Nurse practitioner Services",
       "Aged Care",
       "Chronic Disease Management"
     ],
@@ -56,7 +56,7 @@ export function generateStructuredData() {
     "@context": "https://schema.org",
     "@type": "MedicalService",
     "name": "Geriatric Residential Aged Care Evaluations",
-    "description": "Comprehensive nurse practitioner-led health assessments and care planning for residents in aged care facilities.",
+    "description": "Comprehensive Nurse practitioner-led health assessments and care planning for residents in aged care facilities.",
     "provider": {
       "@type": "MedicalOrganization",
       "name": "GRACE Integrated Health"
@@ -80,7 +80,7 @@ export function generateStructuredData() {
   const healthProfessional = {
     "@context": "https://schema.org",
     "@type": "Nurse",
-    "name": "GRACE Integrated Health Nurse Practitioner",
+    "name": "GRACE Integrated Health Nurse practitioner",
     "worksFor": {
       "@type": "MedicalOrganization",
       "name": "GRACE Integrated Health"

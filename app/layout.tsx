@@ -7,9 +7,9 @@ import { StructuredDataScript } from '../components/structured-data';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'GRACE Integrated Health | Nurse Practitioner-led Aged Care Services',
-  description: 'GRACE provides evidence-based, nurse practitioner-led assessments and integrated care planning for residential aged care facilities. PBS-aware, guideline-aligned care for older adults.',
-  keywords: 'aged care, nurse practitioner, geriatric care, residential aged care, health assessment, medication review, chronic disease management',
+  title: 'GRACE Integrated Health | Nurse practitioner-led Aged Care Services',
+  description: 'GRACE provides evidence-based, Nurse practitioner-led assessments and integrated care planning for residential aged care facilities. PBS-aware, guideline-aligned care for older adults.',
+  keywords: 'aged care, Nurse practitioner, geriatric care, residential aged care, health assessment, medication review, chronic disease management',
   authors: [{ name: 'GRACE Integrated Health' }],
   creator: 'GRACE Integrated Health',
   publisher: 'GRACE Integrated Health',
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'GRACE Integrated Health | Nurse Practitioner-led Aged Care Services',
+    title: 'GRACE Integrated Health | Nurse practitioner-led Aged Care Services',
     description: 'Evidence-based care for older adults in residential aged care facilities. Comprehensive assessments, medication reviews, and chronic disease management.',
     url: 'https://graceintegratedhealth.com.au',
     siteName: 'GRACE Integrated Health',
@@ -34,13 +34,13 @@ export const metadata: Metadata = {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'GRACE Integrated Health - Nurse Practitioner-led Aged Care Services',
+        alt: 'GRACE Integrated Health - Nurse practitioner-led Aged Care Services',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'GRACE Integrated Health | Nurse Practitioner-led Aged Care Services',
+    title: 'GRACE Integrated Health | Nurse practitioner-led Aged Care Services',
     description: 'Evidence-based care for older adults in residential aged care facilities.',
     images: ['/og-image.jpg'],
   },
