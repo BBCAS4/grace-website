@@ -13,6 +13,7 @@ export function ContactForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [fileError, setFileError] = useState("");
   const { trackEvent } = useAnalytics();
 
   return (
@@ -81,11 +82,31 @@ export function ContactForm() {
               accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt"
               onChange={(e) => {
                 const files = Array.from(e.target.files || []);
+                setFileError("");
+                
+                // Validate file types and sizes
+                const validTypes = ['.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png', '.txt'];
+                const maxSize = 10 * 1024 * 1024; // 10MB
+                
+                for (const file of files) {
+                  const ext = '.' + file.name.split('.').pop()?.toLowerCase();
+                  if (!validTypes.includes(ext)) {
+                    setFileError("PDF, DOC, DOCX, JPG, PNG, TXT files up to 10MB each");
+                    setUploadedFiles([]);
+                    return;
+                  }
+                  if (file.size > maxSize) {
+                    setFileError("PDF, DOC, DOCX, JPG, PNG, TXT files up to 10MB each");
+                    setUploadedFiles([]);
+                    return;
+                  }
+                }
+                
                 setUploadedFiles(files);
               }}
               className="block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#E6F4F2] file:text-[#0A3C5F] hover:file:bg-[#22A39A] hover:file:text-white"
             />
-            <p className="text-xs text-slate-500">PDF, DOC, DOCX, JPG, PNG, TXT files up to 10MB each</p>
+            {fileError && <p className="text-xs text-red-600">{fileError}</p>}
             {uploadedFiles.length > 0 && (
               <div className="mt-2">
                 <p className="text-sm font-medium text-slate-700">Selected files:</p>

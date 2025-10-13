@@ -15,6 +15,34 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react'],
   },
+  redirects: async () => {
+    return [
+      // Redirect Azure domain to custom domain
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'graceintegratedhealth.azurewebsites.net',
+          },
+        ],
+        destination: 'https://graceintegratedhealth.com.au/:path*',
+        permanent: true, // 301 redirect
+      },
+      // Add any other Azure subdomain variations if needed
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'grace-website.azurewebsites.net',
+          },
+        ],
+        destination: 'https://graceintegratedhealth.com.au/:path*',
+        permanent: true, // 301 redirect
+      },
+    ];
+  },
   headers: async () => {
     return [
       {

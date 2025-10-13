@@ -1,3 +1,11 @@
+export const metadata = {
+  title: 'Privacy Policy | GRACE Integrated Health',
+  description: 'Privacy Policy for GRACE Integrated Health - Geriatric Residential Aged Care Evaluations',
+  alternates: {
+    canonical: '/privacy',
+  },
+};
+
 export default function PrivacyPage() {
   return (
     <div className="min-h-screen bg-white text-slate-800">
