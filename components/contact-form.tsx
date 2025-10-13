@@ -20,11 +20,12 @@ export function ContactForm() {
       <CardContent>
         <form onSubmit={async (e)=>{
           e.preventDefault();
+          const form = e.currentTarget;
           setLoading(true);
           setError("");
           setSent(false);
           
-          const formData = new FormData(e.currentTarget);
+          const formData = new FormData(form);
           const firstName = formData.get('firstName') as string;
           const lastName = formData.get('lastName') as string;
           const email = formData.get('email') as string;
@@ -50,7 +51,7 @@ export function ContactForm() {
             
             if (response.ok) {
               setSent(true);
-              e.currentTarget.reset();
+              form.reset();
             } else {
               setError(data.error || 'Failed to send message. Please try again.');
             }

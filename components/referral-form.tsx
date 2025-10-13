@@ -21,11 +21,12 @@ export function ReferralForm() {
         <p className="text-sm text-slate-600 mb-3">Submit a quick referral and we'll contact you within one business day.</p>
         <form onSubmit={async (e)=>{
           e.preventDefault();
+          const form = e.currentTarget;
           setLoading(true);
           setError("");
           setSent(false);
           
-          const formData = new FormData(e.currentTarget);
+          const formData = new FormData(form);
           const name = formData.get('name') as string;
           const email = formData.get('email') as string;
           const phone = formData.get('phone') as string;
@@ -49,7 +50,7 @@ export function ReferralForm() {
             
             if (response.ok) {
               setSent(true);
-              e.currentTarget.reset();
+              form.reset();
             } else {
               setError(data.error || 'Failed to send referral. Please try again.');
             }
