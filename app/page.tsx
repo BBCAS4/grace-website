@@ -33,6 +33,7 @@ export default function Page() {
             <a href="#about" className="hover:text-[#0A3C5F]">About</a>
             <a href="#process" className="hover:text-[#0A3C5F]">Process</a>
             <a href="#contact" className="hover:text-[#0A3C5F]">Contact</a>
+            <a href="/privacy" className="hover:text-[#0A3C5F]">Privacy</a>
           </nav>
           <a href="#contact" className="ml-4 hidden sm:inline-block">
             <Button className="rounded-2xl px-5">Book a Consultation</Button>
