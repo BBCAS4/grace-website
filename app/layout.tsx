@@ -18,14 +18,14 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://graceintegratedhealth-g7ewbyc2eghhezga.australiaeast-01.azurewebsites.net'),
+  metadataBase: new URL('https://graceintegratedhealth.com.au'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
     title: 'GRACE Integrated Health | Nurse Practitioner-led Aged Care Services',
     description: 'Evidence-based care for older adults in residential aged care facilities. Comprehensive assessments, medication reviews, and chronic disease management.',
-    url: 'https://graceintegratedhealth-g7ewbyc2eghhezga.australiaeast-01.azurewebsites.net',
+    url: 'https://graceintegratedhealth.com.au',
     siteName: 'GRACE Integrated Health',
     locale: 'en_AU',
     type: 'website',

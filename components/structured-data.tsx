@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export function generateStructuredData() {
-  const baseUrl = 'https://graceintegratedhealth-g7ewbyc2eghhezga.australiaeast-01.azurewebsites.net';
+  const baseUrl = 'https://graceintegratedhealth.com.au';
   
   const organization = {
     "@context": "https://schema.org",
