@@ -99,7 +99,7 @@ export function generateStructuredData() {
     "@type": "WebSite",
     "name": "GRACE Integrated Health",
     "url": baseUrl,
-    "description": "Evidence-based, Nurse Practitioner-led care for older adults in residential aged care facilities.",
+    "description": "Evidence-based, Nurse practitioner-led care for older adults in residential aged care facilities.",
     "potentialAction": {
       "@type": "SearchAction",
       "target": {
