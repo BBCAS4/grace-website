@@ -26,7 +26,7 @@ const nextConfig = {
             value: 'graceintegratedhealth.azurewebsites.net',
           },
         ],
-        destination: 'https://www.graceintegratedhealth.com.au/:path*',
+        destination: 'https://graceintegratedhealth.com.au/:path*',
         permanent: true, // 301 redirect
       },
       // Add any other Azure subdomain variations if needed
@@ -38,19 +38,7 @@ const nextConfig = {
             value: 'grace-website.azurewebsites.net',
           },
         ],
-        destination: 'https://www.graceintegratedhealth.com.au/:path*',
-        permanent: true, // 301 redirect
-      },
-      // Redirect non-www to www
-      {
-        source: '/:path*',
-        has: [
-          {
-            type: 'host',
-            value: 'graceintegratedhealth.com.au',
-          },
-        ],
-        destination: 'https://www.graceintegratedhealth.com.au/:path*',
+        destination: 'https://graceintegratedhealth.com.au/:path*',
         permanent: true, // 301 redirect
       },
     ];
