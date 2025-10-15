@@ -41,18 +41,6 @@ const nextConfig = {
         destination: 'https://www.graceintegratedhealth.com.au/:path*',
         permanent: true, // 301 redirect
       },
-      // Redirect root domain to www (since www points to Azure correctly)
-      {
-        source: '/:path*',
-        has: [
-          {
-            type: 'host',
-            value: 'graceintegratedhealth.com.au',
-          },
-        ],
-        destination: 'https://www.graceintegratedhealth.com.au/:path*',
-        permanent: true, // 301 redirect
-      },
     ];
   },
   headers: async () => {
