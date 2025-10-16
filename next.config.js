@@ -41,6 +41,18 @@ const nextConfig = {
         destination: 'https://www.graceintegratedhealth.com.au/:path*',
         permanent: true, // 301 redirect
       },
+      // Handle root domain - redirect to www for consistency
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'graceintegratedhealth.com.au',
+          },
+        ],
+        destination: 'https://www.graceintegratedhealth.com.au/:path*',
+        permanent: true, // 301 redirect
+      },
     ];
   },
   headers: async () => {
