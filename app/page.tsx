@@ -2,6 +2,19 @@ import { Phone, Mail, MapPin, CheckCircle2, ArrowRight, Stethoscope, ShieldCheck
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { LazyReferralForm, LazyContactForm } from "../components/lazy-components";
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'GRACE Integrated Health | Nurse Practitioner Aged Care Services Port Macquarie',
+  description: 'GRACE provides evidence-based, Nurse practitioner-led assessments and integrated care planning for residential aged care facilities in Port Macquarie, NSW. PBS-aware, guideline-aligned care for older adults.',
+  keywords: 'nurse practitioner, aged care, Port Macquarie, residential aged care, health assessment, medication review, chronic disease management, GRACE Integrated Health',
+  openGraph: {
+    title: 'GRACE Integrated Health | Nurse Practitioner Aged Care Services',
+    description: 'Evidence-based care for older adults in residential aged care facilities. Comprehensive assessments, medication reviews, and chronic disease management in Port Macquarie.',
+    url: 'https://www.graceintegratedhealth.com.au',
+    type: 'website',
+  },
+};
 
 // Inline SVG logo (wordmark + emblem) to ensure it renders without external assets
 function GraceLogo({ className = "w-40" }: { className?: string }) {
