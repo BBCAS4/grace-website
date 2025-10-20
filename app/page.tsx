@@ -1,8 +1,20 @@
 import { Phone, Mail, MapPin, CheckCircle2, ArrowRight, Stethoscope, ShieldCheck, HeartHandshake, FileText, Calendar } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
-import { ReferralForm } from "../components/referral-form";
-import { ContactForm } from "../components/contact-form";
+import { LazyReferralForm, LazyContactForm } from "../components/lazy-components";
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'GRACE Integrated Health | Nurse Practitioner Aged Care Services Port Macquarie',
+  description: 'GRACE provides evidence-based, Nurse practitioner-led assessments and integrated care planning for residential aged care facilities in Port Macquarie, NSW. PBS-aware, guideline-aligned care for older adults.',
+  keywords: 'nurse practitioner, aged care, Port Macquarie, residential aged care, health assessment, medication review, chronic disease management, GRACE Integrated Health',
+  openGraph: {
+    title: 'GRACE Integrated Health | Nurse Practitioner Aged Care Services',
+    description: 'Evidence-based care for older adults in residential aged care facilities. Comprehensive assessments, medication reviews, and chronic disease management in Port Macquarie.',
+    url: 'https://www.graceintegratedhealth.com.au',
+    type: 'website',
+  },
+};
 
 // Inline SVG logo (wordmark + emblem) to ensure it renders without external assets
 function GraceLogo({ className = "w-40" }: { className?: string }) {
@@ -33,6 +45,7 @@ export default function Page() {
             <a href="#about" className="hover:text-[#0A3C5F]">About</a>
             <a href="#process" className="hover:text-[#0A3C5F]">Process</a>
             <a href="#contact" className="hover:text-[#0A3C5F]">Contact</a>
+            <a href="/privacy" className="hover:text-[#0A3C5F]">Privacy</a>
           </nav>
           <a href="#contact" className="ml-4 hidden sm:inline-block">
             <Button className="rounded-2xl px-5">Book a Consultation</Button>
@@ -49,7 +62,7 @@ export default function Page() {
               Evidence‑based care for older adults.
             </h1>
             <p className="mt-4 text-slate-600 md:text-lg">
-              GRACE (Geriatric Residential Aged Care Evaluations) provides modern, nurse practitioner‑led assessments and integrated care planning for residents, families, RACFs and GPs.
+              GRACE (Geriatric Residential Aged Care Evaluations) provides modern, Nurse practitioner‑led assessments and integrated care planning for residents, families, RACFs and GPs.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <a href="#contact"><Button className="rounded-2xl">Book an Assessment <ArrowRight className="ml-2 h-4 w-4"/></Button></a>
@@ -61,7 +74,7 @@ export default function Page() {
               <div className="flex items-center gap-2"><HeartHandshake className="h-5 w-5 text-[#0A3C5F]"/> Family‑centred</div>
             </div>
           </div>
-          <ReferralForm />
+          <LazyReferralForm />
         </div>
       </section>
 
@@ -96,7 +109,7 @@ export default function Page() {
               GRACE stands for <strong>Geriatric Residential Aged Care Evaluations</strong>. We partner with RACFs, GPs and families to deliver safe, timely, guideline‑aligned care. Our approach blends compassionate bedside practice with robust clinical governance.
             </p>
             <ul className="mt-4 space-y-2 text-slate-700">
-              <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-5 w-5 text-[#22A39A]"/> AHPRA‑endorsed Nurse Practitioner service model</li>
+              <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-5 w-5 text-[#22A39A]"/> AHPRA‑endorsed Nurse practitioner service model</li>
               <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-5 w-5 text-[#22A39A]"/> PBS‑aware prescribing and deprescribing where appropriate</li>
               <li className="flex items-start gap-2"><CheckCircle2 className="mt-0.5 h-5 w-5 text-[#22A39A]"/> Clear documentation aligned to RACF workflows</li>
             </ul>
@@ -148,7 +161,7 @@ export default function Page() {
                 <div className="flex items-center gap-2"><MapPin className="h-5 w-5 text-[#0A3C5F]"/> Port Macquarie, NSW</div>
               </div>
             </div>
-            <ContactForm />
+            <LazyContactForm />
           </div>
         </div>
       </section>

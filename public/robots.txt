@@ -1,0 +1,10 @@
+User-agent: *
+Disallow: /api/
+Disallow: /_next/
+Disallow: /admin/
+
+# Block Azure staging domains
+User-agent: *
+Disallow: /graceintegratedhealth-g7ewbyc2eghhezga.australiaeast-01.azurewebsites.net/
+
+Sitemap: https://www.graceintegratedhealth.com.au/sitemap.xml
