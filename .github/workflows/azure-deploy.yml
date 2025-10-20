@@ -30,48 +30,13 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    - name: Clean Next.js cache
-      run: rm -rf .next
-
     - name: Build application
       run: npm run build
-      env:
-        NODE_ENV: production
 
-    - name: Prepare static deployment package
-      run: |
-        # Create deployment directory
-        mkdir -p deploy
-        
-        # Copy the static build output (out directory)
-        if [ -d "out" ]; then
-          cp -r out/. deploy/
-        fi
-        
-        # Copy web.config for Azure Static Web Apps
-        if [ -f "web.config" ]; then
-          cp web.config deploy/
-        fi
-        
-        # Verify the deployment structure
-        echo "=== Final deployment structure ==="
-        ls -la deploy/
-        echo "=== Checking for index.html ==="
-        find deploy/ -name "index.html" -type f
-        echo "=== Checking for sitemap.xml ==="
-        find deploy/ -name "sitemap.xml" -type f
-    
-    - name: Login to Azure
-      uses: azure/login@v2
-      with:
-        client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_DDF023C7D7B0465B84F3A47376108CA2 }}
-        tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_5F7C28C114FE45DE9CC82199A8F55F54 }}
-        subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_49CD86B012FB4ACAAB6D7BD86F1F724F }}
-        
     - name: Deploy to Azure Web App
-      uses: azure/webapps-deploy@v3
+      uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        slot-name: 'Production'
-        package: ./deploy
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        package: ./out
 
