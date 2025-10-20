@@ -38,38 +38,28 @@ jobs:
       env:
         NODE_ENV: production
 
-    - name: Prepare deployment package
+    - name: Prepare static deployment package
       run: |
         # Create deployment directory
         mkdir -p deploy
         
-        # First, let's see what the standalone output contains
-        echo "=== Standalone output structure ==="
-        ls -la .next/standalone/
-        
-        # Copy everything from standalone to deploy root
-        cp -r .next/standalone/. deploy/
-        
-        # Copy static files to .next/static in deploy
-        if [ -d ".next/static" ]; then
-          mkdir -p deploy/.next/static
-          cp -r .next/static/. deploy/.next/static/
+        # Copy the static build output (out directory)
+        if [ -d "out" ]; then
+          cp -r out/. deploy/
         fi
         
-        # Copy public folder
-        if [ -d "public" ]; then
-          cp -r public/. deploy/public/
+        # Copy web.config for Azure Static Web Apps
+        if [ -f "web.config" ]; then
+          cp web.config deploy/
         fi
         
         # Verify the deployment structure
         echo "=== Final deployment structure ==="
         ls -la deploy/
-        echo "=== Looking for server.js ==="
-        find deploy/ -name "server.js" -type f
-        echo "=== Looking for package.json ==="
-        find deploy/ -name "package.json" -type f
-        echo "=== Contents of deploy/.next ==="
-        ls -la deploy/.next/ 2>/dev/null || echo "No .next directory in deploy"
+        echo "=== Checking for index.html ==="
+        find deploy/ -name "index.html" -type f
+        echo "=== Checking for sitemap.xml ==="
+        find deploy/ -name "sitemap.xml" -type f
     
     - name: Login to Azure
       uses: azure/login@v2
