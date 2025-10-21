@@ -14,7 +14,15 @@ export function ReferralForm() {
   const [error, setError] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [fileError, setFileError] = useState("");
-  const { trackEvent } = useAnalytics();
+  
+  // Safely get analytics hook
+  let trackEvent: (action: string, category: string, label?: string, value?: number) => void = () => {};
+  try {
+    const analytics = useAnalytics();
+    trackEvent = analytics.trackEvent;
+  } catch (err) {
+    console.warn('Analytics not available:', err);
+  }
 
   return (
     <Card className="rounded-2xl shadow-lg">
