@@ -56,7 +56,7 @@ export function useAnalytics() {
 
   const trackPageView = (url: string) => {
     try {
-      if (typeof window !== 'undefined' && window.gtag && window.gtag.config) {
+      if (typeof window !== 'undefined' && window.gtag) {
         window.gtag('config', 'GA_MEASUREMENT_ID', {
           page_path: url,
         });
