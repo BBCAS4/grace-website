@@ -13,7 +13,10 @@ const nextConfig = {
   generateEtags: true,
   experimental: {
     optimizePackageImports: ['lucide-react'],
+    serverComponentsExternalPackages: [],
   },
+  // Add mobile-specific optimizations
+  swcMinify: true,
   onDemandEntries: {
     maxInactiveAge: 25 * 1000,
     pagesBufferLength: 2,

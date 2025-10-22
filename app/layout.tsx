@@ -5,6 +5,7 @@ import { Analytics } from '../components/analytics';
 import { StructuredDataScript } from '../components/structured-data';
 import { ErrorBoundary } from '../components/error-boundary';
 import { ClientErrorHandler } from '../components/client-error-handler';
+import { MobileErrorHandler } from '../components/mobile-error-handler';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -84,7 +85,7 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="512x512" href="/GRACE_Integrated_Health_Logo.png" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#0A3C5F" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
         <meta name="application-name" content="GRACE Integrated Health" />
         <meta name="apple-mobile-web-app-title" content="GRACE Integrated Health" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -101,8 +102,19 @@ export default function RootLayout({
         <meta name="twitter:site" content="@GRACEIntegratedHealth" />
         <meta name="twitter:creator" content="@GRACEIntegratedHealth" />
         <meta name="google-site-verification" content="google79eb66bcbe7fe5bb" />
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <meta name="mobile-web-app-status-bar-style" content="default" />
       </head>
       <body className={inter.className}>
+        <noscript>
+          <div style={{padding: '20px', textAlign: 'center', backgroundColor: '#f0f0f0', color: '#333'}}>
+            <h1>GRACE Integrated Health</h1>
+            <p>JavaScript is disabled. Please enable JavaScript for the best experience.</p>
+            <p>Contact: NP@GRACEIntegratedHealth.com.au | 0433 778 876</p>
+          </div>
+        </noscript>
+        <MobileErrorHandler />
         <ClientErrorHandler />
         <ErrorBoundary>
           <StructuredDataScript />
