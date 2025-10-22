@@ -24,7 +24,7 @@
 2. Type "Azure App Service: Create New Web App"
 3. Follow the prompts:
    - Select your subscription
-   - Enter app name: `grace-website` (or your preferred name)
+   - Enter app name: `GraceIntegratedHealth` (or your preferred name)
    - Select runtime: **Node 18 LTS**
    - Select OS: **Linux**
    - Select region: **Australia East** (or closest to you)
@@ -33,7 +33,7 @@
 1. Go to [Azure Portal](https://portal.azure.com)
 2. Click "Create a resource" → "Web App"
 3. Fill in details:
-   - **Name**: `grace-website`
+   - **Name**: `GraceIntegratedHealth`
    - **Runtime stack**: Node 18 LTS
    - **Operating System**: Linux
    - **Region**: Australia East
@@ -80,7 +80,8 @@
 
 2. **App won't start**:
    - Check logs in Azure Portal → Log stream
-   - Verify web.config is correct
+   - Ensure you're using Linux App Service (not Windows)
+   - Verify startup command is set to `./startup.sh`
 
 3. **Environment variables not working**:
    - Ensure they're set in Azure Configuration
@@ -89,6 +90,12 @@
 4. **Contact form not working**:
    - Verify RESEND_API_KEY is set correctly
    - Check application logs for errors
+
+5. **"No new trace" error**:
+   - This usually indicates the app failed to start properly
+   - Check that Node.js version matches (18.x)
+   - Verify the standalone deployment structure is correct
+   - Ensure startup script has execute permissions
 
 ### View Logs:
 ```bash

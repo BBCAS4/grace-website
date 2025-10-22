@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
+import { uploadFilesToBlob } from '../../../lib/azure-storage';
 
 export async function POST(request: NextRequest) {
   try {
@@ -33,13 +34,28 @@ export async function POST(request: NextRequest) {
     // Combine first and last name
     const name = `${firstName} ${lastName}`.trim();
     
-    // Get uploaded files info
-    const uploadedFiles: string[] = [];
+    // Get uploaded files
+    const files: File[] = [];
     formData.forEach((value, key) => {
       if (key.startsWith('file_') && value instanceof File) {
-        uploadedFiles.push(value.name);
+        files.push(value);
       }
     });
+
+    // Upload files to Azure Blob Storage
+    let uploadedFiles: Array<{ url: string; fileName: string }> = [];
+    if (files.length > 0) {
+      try {
+        uploadedFiles = await uploadFilesToBlob(files, 'contact');
+        console.log('Files uploaded successfully:', uploadedFiles);
+      } catch (error) {
+        console.error('Error uploading files:', error);
+        return NextResponse.json(
+          { error: 'Failed to upload files' },
+          { status: 500 }
+        );
+      }
+    }
 
     if (!firstName || !lastName || !email || !message) {
       return NextResponse.json(
@@ -60,7 +76,12 @@ export async function POST(request: NextRequest) {
         <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
         <p><strong>Message:</strong></p>
         <p>${message.replace(/\n/g, '<br>')}</p>
-        ${uploadedFiles.length > 0 ? `<p><strong>Files:</strong> ${uploadedFiles.join(', ')}</p>` : ''}
+        ${uploadedFiles.length > 0 ? `
+          <p><strong>Attached Files:</strong></p>
+          <ul>
+            ${uploadedFiles.map(file => `<li><a href="${file.url}" target="_blank">${file.fileName}</a></li>`).join('')}
+          </ul>
+        ` : ''}
         <hr>
         <p><em>This message was sent from the Grace Integrated Health website contact form.</em></p>
       `,
@@ -71,7 +92,10 @@ Name: ${name}
 Email: ${email}
 Phone: ${phone || 'Not provided'}
 Message: ${message}
-${uploadedFiles.length > 0 ? `Files: ${uploadedFiles.join(', ')}` : ''}
+${uploadedFiles.length > 0 ? `
+Files:
+${uploadedFiles.map(file => `- ${file.fileName}: ${file.url}`).join('\n')}
+` : ''}
 
 This message was sent from the Grace Integrated Health website contact form.
       `,
