@@ -1,7 +1,8 @@
 import { Phone, Mail, MapPin, CheckCircle2, ArrowRight, Stethoscope, ShieldCheck, HeartHandshake, FileText, Calendar } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
-import { LazyReferralForm, LazyContactForm } from "../components/lazy-components";
+import { ReferralForm } from "../components/referral-form";
+import { ContactForm } from "../components/contact-form";
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -74,7 +75,7 @@ export default function Page() {
               <div className="flex items-center gap-2"><HeartHandshake className="h-5 w-5 text-[#0A3C5F]"/> Family‑centred</div>
             </div>
           </div>
-          <LazyReferralForm />
+          <ReferralForm />
         </div>
       </section>
 
@@ -161,7 +162,7 @@ export default function Page() {
                 <div className="flex items-center gap-2"><MapPin className="h-5 w-5 text-[#0A3C5F]"/> Port Macquarie, NSW</div>
               </div>
             </div>
-            <LazyContactForm />
+            <ContactForm />
           </div>
         </div>
       </section>

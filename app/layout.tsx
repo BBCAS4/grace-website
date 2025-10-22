@@ -114,13 +114,14 @@ export default function RootLayout({
             <p>Contact: NP@GRACEIntegratedHealth.com.au | 0433 778 876</p>
           </div>
         </noscript>
-        <MobileErrorHandler />
+        <StructuredDataScript />
+        {children}
+        {/* Temporarily disabled to test if these are causing the Android error */}
+        {/* <MobileErrorHandler />
         <ClientErrorHandler />
         <ErrorBoundary>
-          <StructuredDataScript />
-          {children}
           {gaId && <Analytics gaId={gaId} />}
-        </ErrorBoundary>
+        </ErrorBoundary> */}
       </body>
     </html>
   );

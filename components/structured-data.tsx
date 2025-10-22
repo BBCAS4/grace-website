@@ -130,14 +130,19 @@ export function generateStructuredData() {
 }
 
 export function StructuredDataScript() {
-  const structuredData = generateStructuredData();
-  
-  return (
-    <script
-      type="application/ld+json"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(structuredData, null, 0),
-      }}
-    />
-  );
+  try {
+    const structuredData = generateStructuredData();
+    
+    return (
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData, null, 0),
+        }}
+      />
+    );
+  } catch (error) {
+    console.error('Structured data error:', error);
+    return null; // Return null if structured data fails
+  }
 }
