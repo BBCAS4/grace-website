@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
-import { uploadFilesToBlob } from '../../../lib/azure-storage';
 
 export async function POST(request: NextRequest) {
   try {
@@ -30,7 +29,7 @@ export async function POST(request: NextRequest) {
     const phone = formData.get('phone') as string;
     const referralReason = formData.get('referralReason') as string;
     
-    // Get uploaded files
+    // Get uploaded files for email attachments
     const files: File[] = [];
     formData.forEach((value, key) => {
       if (key.startsWith('file_') && value instanceof File) {
@@ -38,22 +37,7 @@ export async function POST(request: NextRequest) {
       }
     });
 
-    // Upload files to Azure Blob Storage
-    let uploadedFiles: Array<{ url: string; fileName: string }> = [];
-    if (files.length > 0) {
-      try {
-        uploadedFiles = await uploadFilesToBlob(files, 'referral');
-        console.log('Files uploaded successfully:', uploadedFiles);
-      } catch (error) {
-        console.error('Error uploading files:', error);
-        return NextResponse.json(
-          { error: 'Failed to upload files' },
-          { status: 500 }
-        );
-      }
-    }
-
-    console.log('Extracted form data:', { name, email, phone, referralReason, uploadedFilesCount: uploadedFiles.length });
+    console.log('Extracted form data:', { name, email, phone, referralReason, filesCount: files.length });
 
     if (!name || !email || !referralReason) {
       console.log('Validation failed:', { name: !!name, email: !!email, referralReason: !!referralReason });
@@ -62,6 +46,18 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    // Prepare email attachments
+    const attachments = await Promise.all(
+      files.map(async (file) => {
+        const arrayBuffer = await file.arrayBuffer();
+        return {
+          filename: file.name,
+          content: Buffer.from(arrayBuffer),
+          contentType: file.type || 'application/octet-stream'
+        };
+      })
+    );
 
     // Send email using Resend
     const { data, error } = await resend.emails.send({
@@ -75,10 +71,10 @@ export async function POST(request: NextRequest) {
         <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
         <p><strong>Referral Reason:</strong></p>
         <p>${referralReason.replace(/\n/g, '<br>')}</p>
-        ${uploadedFiles.length > 0 ? `
+        ${files.length > 0 ? `
           <p><strong>Attached Files:</strong></p>
           <ul>
-            ${uploadedFiles.map(file => `<li><a href="${file.url}" target="_blank">${file.fileName}</a></li>`).join('')}
+            ${files.map(file => `<li>${file.name} (${(file.size / 1024 / 1024).toFixed(1)}MB)</li>`).join('')}
           </ul>
         ` : ''}
         <hr>
@@ -91,13 +87,14 @@ Name: ${name}
 Email: ${email}
 Phone: ${phone || 'Not provided'}
 Referral Reason: ${referralReason}
-${uploadedFiles.length > 0 ? `
-Files:
-${uploadedFiles.map(file => `- ${file.fileName}: ${file.url}`).join('\n')}
+${files.length > 0 ? `
+Attached Files:
+${files.map(file => `- ${file.name} (${(file.size / 1024 / 1024).toFixed(1)}MB)`).join('\n')}
 ` : ''}
 
 This referral was submitted through the Grace Integrated Health website rapid referral form.
       `,
+      attachments: attachments
     });
 
     if (error) {
