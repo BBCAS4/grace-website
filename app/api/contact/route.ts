@@ -17,15 +17,26 @@ export async function POST(request: NextRequest) {
     
     const formData = await request.formData();
     
-    const name = formData.get('name') as string;
+    const firstName = formData.get('firstName') as string;
+    const lastName = formData.get('lastName') as string;
     const email = formData.get('email') as string;
     const phone = formData.get('phone') as string;
     const message = formData.get('message') as string;
-    const uploadedFiles = formData.get('uploadedFiles') as string;
+    
+    // Combine first and last name
+    const name = `${firstName} ${lastName}`.trim();
+    
+    // Get uploaded files info
+    const uploadedFiles: string[] = [];
+    for (const [key, value] of formData.entries()) {
+      if (key.startsWith('file_') && value instanceof File) {
+        uploadedFiles.push(value.name);
+      }
+    }
 
-    if (!name || !email || !message) {
+    if (!firstName || !lastName || !email || !message) {
       return NextResponse.json(
-        { error: 'Name, email, and message are required' },
+        { error: 'First name, last name, email, and message are required' },
         { status: 400 }
       );
     }
@@ -42,7 +53,7 @@ export async function POST(request: NextRequest) {
         <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
         <p><strong>Message:</strong></p>
         <p>${message.replace(/\n/g, '<br>')}</p>
-        ${uploadedFiles ? `<p><strong>Files:</strong> ${uploadedFiles}</p>` : ''}
+        ${uploadedFiles.length > 0 ? `<p><strong>Files:</strong> ${uploadedFiles.join(', ')}</p>` : ''}
         <hr>
         <p><em>This message was sent from the Grace Integrated Health website contact form.</em></p>
       `,
@@ -53,7 +64,7 @@ Name: ${name}
 Email: ${email}
 Phone: ${phone || 'Not provided'}
 Message: ${message}
-${uploadedFiles ? `Files: ${uploadedFiles}` : ''}
+${uploadedFiles.length > 0 ? `Files: ${uploadedFiles.join(', ')}` : ''}
 
 This message was sent from the Grace Integrated Health website contact form.
       `,
