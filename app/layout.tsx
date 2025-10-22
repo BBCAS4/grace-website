@@ -75,6 +75,9 @@ export default function RootLayout({
         <title>GRACE Integrated Health | Nurse practitioner-led Aged Care Services</title>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/GRACE_Integrated_Health_Logo.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="/GRACE_Integrated_Health_Logo.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/GRACE_Integrated_Health_Logo.png" />
+        <link rel="apple-touch-icon" sizes="167x167" href="/GRACE_Integrated_Health_Logo.png" />
         <link rel="icon" type="image/png" sizes="192x192" href="/GRACE_Integrated_Health_Logo.png" />
         <link rel="icon" type="image/png" sizes="512x512" href="/GRACE_Integrated_Health_Logo.png" />
         <link rel="manifest" href="/manifest.json" />
@@ -83,8 +86,10 @@ export default function RootLayout({
         <meta name="application-name" content="GRACE Integrated Health" />
         <meta name="apple-mobile-web-app-title" content="GRACE Integrated Health" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-itunes-app" content="app-argument=grace-integrated-health" />
         <meta name="msapplication-TileColor" content="#0A3C5F" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
         <meta name="theme-color" content="#0A3C5F" media="(prefers-color-scheme: light)" />

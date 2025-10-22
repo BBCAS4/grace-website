@@ -4,9 +4,11 @@
   "description": "Nurse practitioner-led Aged Care Services in Port Macquarie, NSW",
   "start_url": "/",
   "display": "standalone",
+  "display_override": ["window-controls-overlay"],
   "background_color": "#ffffff",
   "theme_color": "#0A3C5F",
   "orientation": "portrait-primary",
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "/GRACE_Integrated_Health_Logo.png",
@@ -19,6 +21,24 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "/GRACE_Integrated_Health_Logo.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/GRACE_Integrated_Health_Logo.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/GRACE_Integrated_Health_Logo.png",
+      "sizes": "167x167",
+      "type": "image/png",
+      "purpose": "any"
     }
   ],
   "categories": ["health", "medical", "healthcare"],
