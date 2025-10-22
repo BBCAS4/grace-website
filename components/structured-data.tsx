@@ -98,6 +98,7 @@ export function generateStructuredData() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "GRACE Integrated Health",
+    "alternateName": "GRACE",
     "url": baseUrl,
     "description": "Evidence-based, Nurse practitioner-led care for older adults in residential aged care facilities.",
     "potentialAction": {
@@ -111,7 +112,8 @@ export function generateStructuredData() {
     "publisher": {
       "@type": "Organization",
       "name": "GRACE Integrated Health"
-    }
+    },
+    "inLanguage": "en-AU"
   };
 
   return [organization, service, healthProfessional, website];

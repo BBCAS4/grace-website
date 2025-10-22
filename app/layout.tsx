@@ -13,6 +13,7 @@ export const metadata: Metadata = {
   authors: [{ name: 'GRACE Integrated Health' }],
   creator: 'GRACE Integrated Health',
   publisher: 'GRACE Integrated Health',
+  applicationName: 'GRACE Integrated Health',
   formatDetection: {
     email: false,
     address: false,
@@ -71,6 +72,8 @@ export default function RootLayout({
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <meta name="theme-color" content="#0A3C5F" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="application-name" content="GRACE Integrated Health" />
+        <meta name="apple-mobile-web-app-title" content="GRACE Integrated Health" />
       </head>
       <body className={inter.className}>
         <StructuredDataScript />
