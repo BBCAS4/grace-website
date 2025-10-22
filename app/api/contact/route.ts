@@ -28,11 +28,11 @@ export async function POST(request: NextRequest) {
     
     // Get uploaded files info
     const uploadedFiles: string[] = [];
-    for (const [key, value] of formData.entries()) {
+    formData.forEach((value, key) => {
       if (key.startsWith('file_') && value instanceof File) {
         uploadedFiles.push(value.name);
       }
-    }
+    });
 
     if (!firstName || !lastName || !email || !message) {
       return NextResponse.json(
