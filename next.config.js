@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'standalone',
+  output: 'standalone', // Enable for Azure deployment
   trailingSlash: true,
   images: {
     unoptimized: true,

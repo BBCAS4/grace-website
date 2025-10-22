@@ -49,16 +49,18 @@ jobs:
         echo "Checking if server files exist..."
         ls -la .next/server/
 
-    - name: Clean deployment artifacts
+    - name: Prepare standalone deployment
       run: |
-        echo "Cleaning up build artifacts..."
-        rm -rf .next/cache
-        rm -rf node_modules/.cache
+        echo "Preparing standalone deployment..."
+        # Copy static assets to standalone directory
+        cp -r .next/static .next/standalone/.next/
+        cp -r public .next/standalone/
+        echo "Standalone deployment prepared"
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: .
+        package: .next/standalone
 
