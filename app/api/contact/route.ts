@@ -16,6 +16,13 @@ export async function POST(request: NextRequest) {
     const resend = new Resend(process.env.RESEND_API_KEY);
     
     const formData = await request.formData();
+    console.log('Contact form data received');
+    
+    // Log form data for debugging
+    console.log('Form data entries:');
+    formData.forEach((value, key) => {
+      console.log(`${key}: ${value instanceof File ? `File(${value.name})` : value}`);
+    });
     
     const firstName = formData.get('firstName') as string;
     const lastName = formData.get('lastName') as string;

@@ -18,6 +18,12 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData();
     console.log('Referral form data received');
     
+    // Log form data for debugging
+    console.log('Form data entries:');
+    formData.forEach((value, key) => {
+      console.log(`${key}: ${value instanceof File ? `File(${value.name})` : value}`);
+    });
+    
     const name = formData.get('name') as string;
     const email = formData.get('email') as string;
     const phone = formData.get('phone') as string;
@@ -31,7 +37,10 @@ export async function POST(request: NextRequest) {
       }
     });
 
+    console.log('Extracted form data:', { name, email, phone, referralReason, uploadedFilesCount: uploadedFiles.length });
+
     if (!name || !email || !referralReason) {
+      console.log('Validation failed:', { name: !!name, email: !!email, referralReason: !!referralReason });
       return NextResponse.json(
         { error: 'Name, email, and referral reason are required' },
         { status: 400 }
@@ -70,16 +79,17 @@ This referral was submitted through the Grace Integrated Health website rapid re
     if (error) {
       console.error('Resend error:', error);
       return NextResponse.json(
-        { error: 'Failed to send referral email' },
+        { error: 'Failed to send referral email', details: error.message },
         { status: 500 }
       );
     }
 
+    console.log('Email sent successfully:', data?.id);
     return NextResponse.json({ success: true, messageId: data?.id });
   } catch (error) {
     console.error('Referral form error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Internal server error', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }
