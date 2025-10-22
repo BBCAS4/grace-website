@@ -55,7 +55,26 @@ jobs:
         # Copy static assets to standalone directory
         cp -r .next/static .next/standalone/.next/
         cp -r public .next/standalone/
+        # Copy package.json to standalone directory for proper startup
+        cp package.json .next/standalone/
+        # Copy startup script
+        cp startup.sh .next/standalone/
+        chmod +x .next/standalone/startup.sh
         echo "Standalone deployment prepared"
+        echo "Contents of standalone directory:"
+        ls -la .next/standalone/
+
+    - name: Set Azure App Service application settings
+      uses: azure/appservice-settings@v1
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publishProfile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        app-settings-json: |
+          {
+            "NODE_ENV": "production",
+            "PORT": "8080",
+            "WEBSITES_NODE_DEFAULT_VERSION": "22.17.0"
+          }
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
@@ -63,4 +82,5 @@ jobs:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: .next/standalone
+        startup-command: './startup.sh'
 
