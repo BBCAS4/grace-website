@@ -32,6 +32,13 @@ jobs:
 
     - name: Build application
       run: npm run build
+      
+    - name: Verify build
+      run: |
+        echo "Checking if .next directory exists..."
+        ls -la .next/
+        echo "Checking if server files exist..."
+        ls -la .next/server/
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
