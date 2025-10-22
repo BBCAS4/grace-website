@@ -17,7 +17,7 @@ export const LazyContactForm = dynamic(() => import('./contact-form').then(mod =
       </div>
     </div>
   ),
-  ssr: false,
+  ssr: true,
 });
 
 export const LazyReferralForm = dynamic(() => import('./referral-form').then(mod => ({ default: mod.ReferralForm })), {
@@ -33,5 +33,5 @@ export const LazyReferralForm = dynamic(() => import('./referral-form').then(mod
       </div>
     </div>
   ),
-  ssr: false,
+  ssr: true,
 });
