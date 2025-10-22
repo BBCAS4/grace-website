@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     // Send email using Resend
     const { data, error } = await resend.emails.send({
       from: 'Grace Integrated Health <onboarding@resend.dev>',
-      to: ['ben@bbcas.com'],
+      to: ['np@graceintegratedhealth.com.au'],
       subject: `New Rapid Referral from ${name}`,
       html: `
         <h2>New Rapid Referral</h2>
