@@ -52,17 +52,30 @@ jobs:
     - name: Prepare standalone deployment
       run: |
         echo "Preparing standalone deployment..."
+        # Verify standalone build exists
+        if [ ! -d ".next/standalone" ]; then
+          echo "ERROR: Standalone build not found!"
+          exit 1
+        fi
+        
         # Copy static assets to standalone directory
         cp -r .next/static .next/standalone/.next/
         cp -r public .next/standalone/
+        
         # Copy package.json to standalone directory for proper startup
         cp package.json .next/standalone/
+        
         # Copy startup script
         cp startup.sh .next/standalone/
         chmod +x .next/standalone/startup.sh
+        
         echo "Standalone deployment prepared"
         echo "Contents of standalone directory:"
         ls -la .next/standalone/
+        echo "Contents of standalone/.next directory:"
+        ls -la .next/standalone/.next/
+        echo "Server.js location:"
+        find .next/standalone -name "server.js" -type f
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
@@ -70,5 +83,4 @@ jobs:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: .next/standalone
-        startup-command: './startup.sh'
 
