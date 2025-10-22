@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // output: 'export', // Commented out to restore server-side functionality
+  output: 'standalone',
   trailingSlash: true,
   images: {
     unoptimized: true,
