@@ -16,12 +16,20 @@ export async function POST(request: NextRequest) {
     const resend = new Resend(process.env.RESEND_API_KEY);
     
     const formData = await request.formData();
+    console.log('Referral form data received');
     
     const name = formData.get('name') as string;
     const email = formData.get('email') as string;
     const phone = formData.get('phone') as string;
     const referralReason = formData.get('referralReason') as string;
-    const uploadedFiles = formData.get('uploadedFiles') as string;
+    
+    // Get uploaded files info
+    const uploadedFiles: string[] = [];
+    formData.forEach((value, key) => {
+      if (key.startsWith('file_') && value instanceof File) {
+        uploadedFiles.push(value.name);
+      }
+    });
 
     if (!name || !email || !referralReason) {
       return NextResponse.json(
@@ -42,7 +50,7 @@ export async function POST(request: NextRequest) {
         <p><strong>Phone:</strong> ${phone || 'Not provided'}</p>
         <p><strong>Referral Reason:</strong></p>
         <p>${referralReason.replace(/\n/g, '<br>')}</p>
-        ${uploadedFiles ? `<p><strong>Files:</strong> ${uploadedFiles}</p>` : ''}
+        ${uploadedFiles.length > 0 ? `<p><strong>Files:</strong> ${uploadedFiles.join(', ')}</p>` : ''}
         <hr>
         <p><em>This referral was submitted through the Grace Integrated Health website rapid referral form.</em></p>
       `,
@@ -53,7 +61,7 @@ Name: ${name}
 Email: ${email}
 Phone: ${phone || 'Not provided'}
 Referral Reason: ${referralReason}
-${uploadedFiles ? `Files: ${uploadedFiles}` : ''}
+${uploadedFiles.length > 0 ? `Files: ${uploadedFiles.join(', ')}` : ''}
 
 This referral was submitted through the Grace Integrated Health website rapid referral form.
       `,
