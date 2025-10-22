@@ -14,7 +14,6 @@ export const metadata: Metadata = {
   creator: 'GRACE Integrated Health',
   publisher: 'GRACE Integrated Health',
   applicationName: 'GRACE Integrated Health',
-  siteName: 'GRACE Integrated Health',
   formatDetection: {
     email: false,
     address: false,
