@@ -98,9 +98,10 @@ export function generateStructuredData() {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "GRACE Integrated Health",
-    "alternateName": "GRACE",
+    "alternateName": ["GRACE", "GRACE Integrated Health", "Geriatric Residential Aged Care Evaluations"],
     "url": baseUrl,
     "description": "Evidence-based, Nurse practitioner-led care for older adults in residential aged care facilities.",
+    "headline": "GRACE Integrated Health - Nurse practitioner-led Aged Care Services",
     "potentialAction": {
       "@type": "SearchAction",
       "target": {
@@ -113,7 +114,11 @@ export function generateStructuredData() {
       "@type": "Organization",
       "name": "GRACE Integrated Health"
     },
-    "inLanguage": "en-AU"
+    "inLanguage": "en-AU",
+    "mainEntity": {
+      "@type": "MedicalOrganization",
+      "name": "GRACE Integrated Health"
+    }
   };
 
   return [organization, service, healthProfessional, website];

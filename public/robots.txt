@@ -7,4 +7,7 @@ Disallow: /admin/
 User-agent: *
 Disallow: /graceintegratedhealth-g7ewbyc2eghhezga.australiaeast-01.azurewebsites.net/
 
+# Site name for search engines
+# GRACE Integrated Health - Nurse practitioner-led Aged Care Services
+
 Sitemap: https://www.graceintegratedhealth.com.au/sitemap.xml

@@ -14,6 +14,7 @@ export const metadata: Metadata = {
   creator: 'GRACE Integrated Health',
   publisher: 'GRACE Integrated Health',
   applicationName: 'GRACE Integrated Health',
+  siteName: 'GRACE Integrated Health',
   formatDetection: {
     email: false,
     address: false,
@@ -68,12 +69,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <title>GRACE Integrated Health | Nurse practitioner-led Aged Care Services</title>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <meta name="theme-color" content="#0A3C5F" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="application-name" content="GRACE Integrated Health" />
         <meta name="apple-mobile-web-app-title" content="GRACE Integrated Health" />
+        <meta name="site_name" content="GRACE Integrated Health" />
+        <meta name="og:site_name" content="GRACE Integrated Health" />
+        <meta name="twitter:site" content="@GRACEIntegratedHealth" />
+        <meta name="twitter:creator" content="@GRACEIntegratedHealth" />
+        <meta name="google-site-verification" content="google79eb66bcbe7fe5bb" />
       </head>
       <body className={inter.className}>
         <StructuredDataScript />
