@@ -64,17 +64,6 @@ jobs:
         echo "Contents of standalone directory:"
         ls -la .next/standalone/
 
-    - name: Set Azure App Service application settings
-      uses: azure/appservice-settings@v1
-      with:
-        app-name: ${{ env.AZURE_WEBAPP_NAME }}
-        app-settings-json: |
-          {
-            "NODE_ENV": "production",
-            "PORT": "8080",
-            "WEBSITES_NODE_DEFAULT_VERSION": "22.17.0"
-          }
-
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
