@@ -19,6 +19,10 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
+  other: {
+    'mobile-web-app-capable': 'yes',
+    'application-name': 'GRACE Integrated Health',
+  },
   metadataBase: new URL('https://www.graceintegratedhealth.com.au'),
   alternates: {
     canonical: '/',
@@ -71,6 +75,9 @@ export default function RootLayout({
         <title>GRACE Integrated Health | Nurse practitioner-led Aged Care Services</title>
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/GRACE_Integrated_Health_Logo.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="/GRACE_Integrated_Health_Logo.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/GRACE_Integrated_Health_Logo.png" />
+        <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#0A3C5F" />
         <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
         <meta name="application-name" content="GRACE Integrated Health" />
@@ -78,6 +85,10 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="msapplication-TileColor" content="#0A3C5F" />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
+        <meta name="theme-color" content="#0A3C5F" media="(prefers-color-scheme: light)" />
+        <meta name="theme-color" content="#0A3C5F" media="(prefers-color-scheme: dark)" />
         <meta name="site_name" content="GRACE Integrated Health" />
         <meta name="og:site_name" content="GRACE Integrated Health" />
         <meta name="twitter:site" content="@GRACEIntegratedHealth" />

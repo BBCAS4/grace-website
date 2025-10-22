@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+    <msapplication>
+        <tile>
+            <square150x150logo src="/GRACE_Integrated_Health_Logo.png"/>
+            <TileColor>#0A3C5F</TileColor>
+        </tile>
+    </msapplication>
+</browserconfig>
