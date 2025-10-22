@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [
       {
-        url: '/og-image.jpg',
+        url: '/GRACE_Integrated_Health_Logo.png',
         width: 1200,
         height: 630,
         alt: 'GRACE Integrated Health - Nurse practitioner-led Aged Care Services',
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'GRACE Integrated Health | Nurse practitioner-led Aged Care Services',
     description: 'Evidence-based care for older adults in residential aged care facilities.',
-    images: ['/og-image.jpg'],
+    images: ['/GRACE_Integrated_Health_Logo.png'],
   },
   robots: {
     index: true,
@@ -70,11 +70,14 @@ export default function RootLayout({
       <head>
         <title>GRACE Integrated Health | Nurse practitioner-led Aged Care Services</title>
         <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="apple-touch-icon" href="/GRACE_Integrated_Health_Logo.png" />
         <meta name="theme-color" content="#0A3C5F" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
         <meta name="application-name" content="GRACE Integrated Health" />
         <meta name="apple-mobile-web-app-title" content="GRACE Integrated Health" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="site_name" content="GRACE Integrated Health" />
         <meta name="og:site_name" content="GRACE Integrated Health" />
         <meta name="twitter:site" content="@GRACEIntegratedHealth" />

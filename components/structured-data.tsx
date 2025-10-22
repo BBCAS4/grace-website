@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export function generateStructuredData() {
-  const baseUrl = 'https://graceintegratedhealth.com.au';
+  const baseUrl = 'https://www.graceintegratedhealth.com.au';
   
   const organization = {
     "@context": "https://schema.org",
@@ -10,8 +10,8 @@ export function generateStructuredData() {
     "alternateName": "GRACE",
     "description": "Geriatric Residential Aged Care Evaluations - Nurse practitioner-led assessments and integrated care planning for residential aged care facilities.",
     "url": baseUrl,
-    "logo": `${baseUrl}/logo.png`,
-    "image": `${baseUrl}/og-image.jpg`,
+    "logo": `${baseUrl}/GRACE_Integrated_Health_Logo.png`,
+    "image": `${baseUrl}/GRACE_Integrated_Health_Logo.png`,
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Port Macquarie",
@@ -37,6 +37,8 @@ export function generateStructuredData() {
     "sameAs": [],
     "foundingDate": "2024",
     "numberOfEmployees": "1-10",
+    "mobileUrl": baseUrl,
+    "hasMap": "https://maps.google.com/?q=Port+Macquarie+NSW+Australia",
     "medicalSpecialty": [
       "Geriatric Medicine",
       "Nurse practitioner Services",
@@ -90,7 +92,10 @@ export function generateStructuredData() {
     "contactPoint": {
       "@type": "ContactPoint",
       "email": "NP@GRACEIntegratedHealth.com.au",
-      "telephone": "+61-433-778-876"
+      "telephone": "+61-433-778-876",
+      "contactType": "customer service",
+      "availableLanguage": "English",
+      "areaServed": "AU"
     }
   };
 

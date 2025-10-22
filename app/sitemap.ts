@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://graceintegratedhealth.com.au'
+  const baseUrl = 'https://www.graceintegratedhealth.com.au'
   
   return [
     {
