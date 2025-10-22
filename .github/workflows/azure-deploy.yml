@@ -20,13 +20,6 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
-
-    - name: Configure Git
-      run: |
-        git config --global user.name "GitHub Actions"
-        git config --global user.email "actions@github.com"
 
     - name: Set up Node.js
       uses: actions/setup-node@v4
@@ -47,10 +40,17 @@ jobs:
         echo "Checking if server files exist..."
         ls -la .next/server/
 
+    - name: Clean deployment artifacts
+      run: |
+        echo "Cleaning up build artifacts..."
+        rm -rf .next/cache
+        rm -rf node_modules/.cache
+
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: .
+        startup-command: 'npm start'
 
