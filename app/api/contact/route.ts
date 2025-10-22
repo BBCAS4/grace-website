@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
 
     // Send email using Resend
     const { data, error } = await resend.emails.send({
-      from: 'Grace Integrated Health <onboarding@resend.dev>',
+      from: 'Grace Integrated Health <noreply@graceintegratedhealth.com.au>',
       to: ['np@graceintegratedhealth.com.au'],
       subject: `New Contact Form Submission from ${name}`,
       html: `
