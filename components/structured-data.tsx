@@ -136,7 +136,7 @@ export function StructuredDataScript() {
     <script
       type="application/ld+json"
       dangerouslySetInnerHTML={{
-        __html: JSON.stringify(structuredData),
+        __html: JSON.stringify(structuredData, null, 0),
       }}
     />
   );

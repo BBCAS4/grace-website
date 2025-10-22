@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import { Analytics } from '../components/analytics';
 import { StructuredDataScript } from '../components/structured-data';
+import { ErrorBoundary } from '../components/error-boundary';
+import { ClientErrorHandler } from '../components/client-error-handler';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -101,9 +103,12 @@ export default function RootLayout({
         <meta name="google-site-verification" content="google79eb66bcbe7fe5bb" />
       </head>
       <body className={inter.className}>
-        <StructuredDataScript />
-        {children}
-        {gaId && <Analytics gaId={gaId} />}
+        <ClientErrorHandler />
+        <ErrorBoundary>
+          <StructuredDataScript />
+          {children}
+          {gaId && <Analytics gaId={gaId} />}
+        </ErrorBoundary>
       </body>
     </html>
   );

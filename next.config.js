@@ -14,6 +14,10 @@ const nextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react'],
   },
+  onDemandEntries: {
+    maxInactiveAge: 25 * 1000,
+    pagesBufferLength: 2,
+  },
   redirects: async () => {
     return [
       // Redirect Azure domain to custom domain
