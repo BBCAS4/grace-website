@@ -122,15 +122,33 @@ export default function RootLayout({
             <p>Contact: NP@GRACEIntegratedHealth.com.au | 0433 778 876</p>
           </div>
         </noscript>
-        <GoogleWebViewHandler />
-        <StructuredDataScript />
-        {children}
-        {/* Temporarily disabled to test if these are causing the Android error */}
-        {/* <MobileErrorHandler />
-        <ClientErrorHandler />
-        <ErrorBoundary>
-          {gaId && <Analytics gaId={gaId} />}
-        </ErrorBoundary> */}
+        <div id="app-root">
+          {/* Temporarily disabled structured data to test */}
+          {/* <StructuredDataScript /> */}
+          {children}
+        </div>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+            // Minimal JavaScript to prevent hydration issues
+            try {
+              // Simple error handler
+              window.addEventListener('error', function(e) {
+                console.error('Error caught:', e.error);
+                e.preventDefault();
+                return false;
+              });
+              
+              // Prevent unhandled promise rejections
+              window.addEventListener('unhandledrejection', function(e) {
+                console.error('Promise rejection caught:', e.reason);
+                e.preventDefault();
+                return false;
+              });
+            } catch (err) {
+              console.error('Error handler setup failed:', err);
+            }
+          `
+        }} />
       </body>
     </html>
   );
