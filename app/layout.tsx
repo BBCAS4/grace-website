@@ -6,6 +6,7 @@ import { StructuredDataScript } from '../components/structured-data';
 import { ErrorBoundary } from '../components/error-boundary';
 import { ClientErrorHandler } from '../components/client-error-handler';
 import { MobileErrorHandler } from '../components/mobile-error-handler';
+import { GoogleWebViewHandler } from '../components/google-webview-handler';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -105,6 +106,13 @@ export default function RootLayout({
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
         <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
         <meta name="mobile-web-app-status-bar-style" content="default" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="format-detection" content="date=no" />
+        <meta name="format-detection" content="address=no" />
+        <meta name="format-detection" content="email=no" />
+        <meta name="google" content="notranslate" />
+        <meta name="googlebot" content="notranslate" />
+        <meta name="referrer" content="no-referrer-when-downgrade" />
       </head>
       <body className={inter.className}>
         <noscript>
@@ -114,6 +122,7 @@ export default function RootLayout({
             <p>Contact: NP@GRACEIntegratedHealth.com.au | 0433 778 876</p>
           </div>
         </noscript>
+        <GoogleWebViewHandler />
         <StructuredDataScript />
         {children}
         {/* Temporarily disabled to test if these are causing the Android error */}
