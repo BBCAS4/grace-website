@@ -86,7 +86,7 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="512x512" href="/GRACE_Integrated_Health_Logo.png" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#0A3C5F" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="application-name" content="GRACE Integrated Health" />
         <meta name="apple-mobile-web-app-title" content="GRACE Integrated Health" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
