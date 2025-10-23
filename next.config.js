@@ -2,6 +2,11 @@
 const nextConfig = {
   output: 'standalone', // Enable for Azure deployment
   trailingSlash: true,
+  // Disable client-side rendering for problematic browsers
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+    serverComponentsExternalPackages: [],
+  },
   images: {
     unoptimized: true,
     formats: ['image/webp', 'image/avif'],
