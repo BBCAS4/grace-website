@@ -1,21 +1,12 @@
+'use client';
+
+import { useEffect, useState } from 'react';
 import { Phone, Mail, MapPin, CheckCircle2, ArrowRight, Stethoscope, ShieldCheck, HeartHandshake, FileText, Calendar } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
 import { ReferralForm } from "../components/referral-form";
 import { ContactForm } from "../components/contact-form";
 import { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'GRACE Integrated Health | Nurse Practitioner Aged Care Services Port Macquarie',
-  description: 'GRACE provides evidence-based, Nurse practitioner-led assessments and integrated care planning for residential aged care facilities in Port Macquarie, NSW. PBS-aware, guideline-aligned care for older adults.',
-  keywords: 'nurse practitioner, aged care, Port Macquarie, residential aged care, health assessment, medication review, chronic disease management, GRACE Integrated Health',
-  openGraph: {
-    title: 'GRACE Integrated Health | Nurse Practitioner Aged Care Services',
-    description: 'Evidence-based care for older adults in residential aged care facilities. Comprehensive assessments, medication reviews, and chronic disease management in Port Macquarie.',
-    url: 'https://www.graceintegratedhealth.com.au',
-    type: 'website',
-  },
-};
 
 // Inline SVG logo (wordmark + emblem) to ensure it renders without external assets
 function GraceLogo({ className = "w-40" }: { className?: string }) {
@@ -34,7 +25,84 @@ function GraceLogo({ className = "w-40" }: { className?: string }) {
   );
 }
 
+// Static HTML fallback for problematic browsers
+function StaticFallback() {
+  return (
+    <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px', lineHeight: '1.6' }}>
+      <h1 style={{ color: '#0A3C5F', fontSize: '2rem', marginBottom: '1rem' }}>GRACE Integrated Health</h1>
+      <p style={{ fontSize: '1.1rem', marginBottom: '1rem' }}><strong>Nurse Practitioner-led Aged Care Services</strong></p>
+      <p style={{ marginBottom: '2rem' }}>Evidence-based care for older adults in residential aged care facilities. Comprehensive assessments, medication reviews, and chronic disease management in Port Macquarie.</p>
+      
+      <div style={{ backgroundColor: '#f8f9fa', padding: '20px', borderRadius: '8px', marginBottom: '2rem' }}>
+        <h3 style={{ color: '#0A3C5F', marginTop: '0' }}>Contact Information</h3>
+        <p><strong>Phone:</strong> 0433 778 876</p>
+        <p><strong>Email:</strong> NP@GRACEIntegratedHealth.com.au</p>
+        <p><strong>Location:</strong> Port Macquarie, NSW</p>
+      </div>
+
+      <h2 style={{ color: '#0A3C5F', fontSize: '1.5rem', marginBottom: '1rem' }}>Services</h2>
+      <ul style={{ marginBottom: '2rem' }}>
+        <li>Residential Aged Care Facilities</li>
+        <li>Comprehensive Health Assessment</li>
+        <li>Behaviour Support</li>
+        <li>Chronic Disease Management</li>
+      </ul>
+
+      <h2 style={{ color: '#0A3C5F', fontSize: '1.5rem', marginBottom: '1rem' }}>About GRACE</h2>
+      <p style={{ marginBottom: '2rem' }}>GRACE stands for <strong>Geriatric Residential Aged Care Evaluations</strong>. We partner with RACFs, GPs and families to deliver safe, timely, guideline-aligned care.</p>
+
+      <div style={{ backgroundColor: '#f8f9fa', padding: '20px', borderRadius: '8px', textAlign: 'center' }}>
+        <h3 style={{ color: '#0A3C5F', marginTop: '0' }}>Get in Touch</h3>
+        <p style={{ marginBottom: '1rem' }}>Have a resident who would benefit from a comprehensive review?</p>
+        <a href="mailto:NP@GRACEIntegratedHealth.com.au" style={{ display: 'inline-block', backgroundColor: '#0A3C5F', color: 'white', padding: '12px 24px', textDecoration: 'none', borderRadius: '6px', margin: '5px' }}>Send Email</a>
+        <a href="tel:0433778876" style={{ display: 'inline-block', backgroundColor: '#0A3C5F', color: 'white', padding: '12px 24px', textDecoration: 'none', borderRadius: '6px', margin: '5px' }}>Call Now</a>
+      </div>
+
+      <footer style={{ marginTop: '40px', textAlign: 'center', color: '#666', borderTop: '1px solid #eee', paddingTop: '20px' }}>
+        <p>&copy; 2024 GRACE Integrated Health. All rights reserved.</p>
+      </footer>
+    </div>
+  );
+}
+
 export default function Page() {
+  const [isProblematicBrowser, setIsProblematicBrowser] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    try {
+      // Detect problematic browsers
+      const userAgent = navigator.userAgent;
+      const isSamsung = /Samsung|SM-/i.test(userAgent);
+      const isAndroid = /Android/i.test(userAgent);
+      const isGoogleWebView = /Google.*Mobile|Googlebot|Google WebView/i.test(userAgent);
+      
+      if (isSamsung || (isAndroid && isGoogleWebView)) {
+        setIsProblematicBrowser(true);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      // If there's any error, show static fallback
+      setIsProblematicBrowser(true);
+      setIsLoading(false);
+    }
+  }, []);
+
+  // Show loading state briefly
+  if (isLoading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <div>Loading...</div>
+      </div>
+    );
+  }
+
+  // Show static fallback for problematic browsers
+  if (isProblematicBrowser) {
+    return <StaticFallback />;
+  }
+
+  // Show full Next.js app for other browsers
   return (
     <div className="min-h-screen bg-white text-slate-800">
       {/* Header */}
