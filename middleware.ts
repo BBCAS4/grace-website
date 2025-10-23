@@ -4,42 +4,29 @@ export function middleware(request: NextRequest) {
   const userAgent = request.headers.get('user-agent') || '';
   const referer = request.headers.get('referer') || '';
   
-  // More comprehensive detection for Google WebView
-  const isGoogleWebView = 
-    /Googlebot|Google WebView|GoogleApp|GoogleSearchApp|GoogleSearch/i.test(userAgent) ||
-    referer.includes('google.com') ||
-    request.url.includes('google.com') ||
-    // Check for common Google app patterns
-    userAgent.includes('Google') && userAgent.includes('Mobile') ||
-    // Check for Android with Google app
-    /Android.*Google/i.test(userAgent);
-  
-  // Detect if it's a mobile device
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
+  // Detect Android devices
+  const isAndroid = /Android/i.test(userAgent);
   
   // Log for debugging
   console.log('User Agent:', userAgent);
   console.log('Referer:', referer);
-  console.log('Is Google WebView:', isGoogleWebView);
-  console.log('Is Mobile:', isMobile);
+  console.log('Is Android:', isAndroid);
+  console.log('Pathname:', request.nextUrl.pathname);
   
-  // If it's Google WebView on mobile, serve the fallback HTML
-  if (isGoogleWebView && isMobile) {
-    console.log('Serving fallback HTML for Google WebView');
-    // Only redirect the main page, not API routes or other pages
-    if (request.nextUrl.pathname === '/') {
-      return NextResponse.redirect(new URL('/fallback.html', request.url));
+  // Block ALL Next.js app routes for Android devices
+  if (isAndroid) {
+    console.log('Android device detected - blocking Next.js app');
+    
+    // Allow static files and API routes
+    if (request.nextUrl.pathname.startsWith('/api/') || 
+        request.nextUrl.pathname.startsWith('/_next/') ||
+        request.nextUrl.pathname.includes('.')) {
+      return NextResponse.next();
     }
-  }
-  
-  // Also check for any Android device that might be having issues
-  if (isMobile && /Android/i.test(userAgent)) {
-    console.log('Android device detected, checking for fallback');
-    // For now, let's be more aggressive and serve fallback to all Android users
-    if (request.nextUrl.pathname === '/') {
-      console.log('Serving fallback to Android device');
-      return NextResponse.redirect(new URL('/fallback.html', request.url));
-    }
+    
+    // Redirect all other routes to fallback HTML
+    console.log('Redirecting Android device to fallback HTML');
+    return NextResponse.redirect(new URL('/fallback.html', request.url));
   }
   
   return NextResponse.next();
@@ -47,13 +34,8 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    // Match the root path and all app routes
+    '/',
+    '/((?!api|_next/static|_next/image|favicon.ico|fallback.html|simple.html).*)',
   ],
 };
