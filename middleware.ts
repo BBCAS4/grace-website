@@ -28,7 +28,17 @@ export function middleware(request: NextRequest) {
     console.log('Serving fallback HTML for Google WebView');
     // Only redirect the main page, not API routes or other pages
     if (request.nextUrl.pathname === '/') {
-      return NextResponse.rewrite(new URL('/fallback.html', request.url));
+      return NextResponse.redirect(new URL('/fallback.html', request.url));
+    }
+  }
+  
+  // Also check for any Android device that might be having issues
+  if (isMobile && /Android/i.test(userAgent)) {
+    console.log('Android device detected, checking for fallback');
+    // For now, let's be more aggressive and serve fallback to all Android users
+    if (request.nextUrl.pathname === '/') {
+      console.log('Serving fallback to Android device');
+      return NextResponse.redirect(new URL('/fallback.html', request.url));
     }
   }
   
