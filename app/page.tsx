@@ -75,9 +75,11 @@ export default function Page() {
       const userAgent = navigator.userAgent;
       const isSamsung = /Samsung|SM-/i.test(userAgent);
       const isAndroid = /Android/i.test(userAgent);
-      const isGoogleWebView = /Google.*Mobile|Googlebot|Google WebView/i.test(userAgent);
+      const isGoogleWebView = /Google.*Mobile|Googlebot|Google WebView|GoogleApp|GoogleSearchApp/i.test(userAgent);
+      const isGoogleBrowser = /Chrome\/.*Mobile.*Google/i.test(userAgent) || /Google/i.test(userAgent);
       
-      if (isSamsung || (isAndroid && isGoogleWebView)) {
+      // Be more aggressive with Android detection
+      if (isSamsung || isGoogleWebView || (isAndroid && isGoogleBrowser) || isAndroid) {
         setIsProblematicBrowser(true);
       }
       setIsLoading(false);
