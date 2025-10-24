@@ -1,6 +1,4 @@
 'use client';
-
-import { useEffect, useState } from 'react';
 import { Phone, Mail, MapPin, CheckCircle2, ArrowRight, Stethoscope, ShieldCheck, HeartHandshake, FileText, Calendar } from "lucide-react";
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/card";
@@ -25,94 +23,9 @@ function GraceLogo({ className = "w-40" }: { className?: string }) {
   );
 }
 
-// Static HTML fallback for problematic browsers
-function StaticFallback() {
-  return (
-    <div style={{ fontFamily: 'Arial, sans-serif', padding: '20px', lineHeight: '1.6' }}>
-      <h1 style={{ color: '#0A3C5F', fontSize: '2rem', marginBottom: '1rem' }}>GRACE Integrated Health</h1>
-      <p style={{ fontSize: '1.1rem', marginBottom: '1rem' }}><strong>Nurse Practitioner-led Aged Care Services</strong></p>
-      <p style={{ marginBottom: '2rem' }}>Evidence-based care for older adults in residential aged care facilities. Comprehensive assessments, medication reviews, and chronic disease management in Port Macquarie.</p>
-      
-      <div style={{ backgroundColor: '#f8f9fa', padding: '20px', borderRadius: '8px', marginBottom: '2rem' }}>
-        <h3 style={{ color: '#0A3C5F', marginTop: '0' }}>Contact Information</h3>
-        <p><strong>Phone:</strong> 0433 778 876</p>
-        <p><strong>Email:</strong> NP@GRACEIntegratedHealth.com.au</p>
-        <p><strong>Location:</strong> Port Macquarie, NSW</p>
-      </div>
-
-      <h2 style={{ color: '#0A3C5F', fontSize: '1.5rem', marginBottom: '1rem' }}>Services</h2>
-      <ul style={{ marginBottom: '2rem' }}>
-        <li>Residential Aged Care Facilities</li>
-        <li>Comprehensive Health Assessment</li>
-        <li>Behaviour Support</li>
-        <li>Chronic Disease Management</li>
-      </ul>
-
-      <h2 style={{ color: '#0A3C5F', fontSize: '1.5rem', marginBottom: '1rem' }}>About GRACE</h2>
-      <p style={{ marginBottom: '2rem' }}>GRACE stands for <strong>Geriatric Residential Aged Care Evaluations</strong>. We partner with RACFs, GPs and families to deliver safe, timely, guideline-aligned care.</p>
-
-      <div style={{ backgroundColor: '#f8f9fa', padding: '20px', borderRadius: '8px', textAlign: 'center' }}>
-        <h3 style={{ color: '#0A3C5F', marginTop: '0' }}>Get in Touch</h3>
-        <p style={{ marginBottom: '1rem' }}>Have a resident who would benefit from a comprehensive review?</p>
-        <a href="mailto:NP@GRACEIntegratedHealth.com.au" style={{ display: 'inline-block', backgroundColor: '#0A3C5F', color: 'white', padding: '12px 24px', textDecoration: 'none', borderRadius: '6px', margin: '5px' }}>Send Email</a>
-        <a href="tel:0433778876" style={{ display: 'inline-block', backgroundColor: '#0A3C5F', color: 'white', padding: '12px 24px', textDecoration: 'none', borderRadius: '6px', margin: '5px' }}>Call Now</a>
-      </div>
-
-      <footer style={{ marginTop: '40px', textAlign: 'center', color: '#666', borderTop: '1px solid #eee', paddingTop: '20px' }}>
-        <p>&copy; 2024 GRACE Integrated Health. All rights reserved.</p>
-      </footer>
-    </div>
-  );
-}
 
 export default function Page() {
-  const [isProblematicBrowser, setIsProblematicBrowser] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    try {
-      // Detect problematic browsers and devices
-      const userAgent = navigator.userAgent;
-      const isSamsung = /Samsung|SM-/i.test(userAgent);
-      const isAndroid = /Android/i.test(userAgent);
-      const isGoogleWebView = /Google.*Mobile|Googlebot|Google WebView|GoogleApp|GoogleSearchApp/i.test(userAgent);
-      const isGoogleBrowser = /Chrome\/.*Mobile.*Google/i.test(userAgent) || /Google/i.test(userAgent);
-      
-      // Check for mobile phone specifically (not tablet)
-      const isMobilePhone = /Mobile|Android.*Mobile/i.test(userAgent) && !/Tablet|iPad/i.test(userAgent);
-      
-      // Check for potential JavaScript issues
-      const hasMemoryIssues = (navigator as any).deviceMemory && (navigator as any).deviceMemory < 4; // Less than 4GB RAM
-      const isOldAndroid = /Android [1-6]\./i.test(userAgent); // Android 6 and below
-      
-      // More comprehensive detection
-      if (isSamsung || isGoogleWebView || (isAndroid && isGoogleBrowser) || 
-          (isAndroid && isMobilePhone) || hasMemoryIssues || isOldAndroid) {
-        setIsProblematicBrowser(true);
-      }
-      setIsLoading(false);
-    } catch (error) {
-      // If there's any error, show static fallback
-      setIsProblematicBrowser(true);
-      setIsLoading(false);
-    }
-  }, []);
-
-  // Show loading state briefly
-  if (isLoading) {
-    return (
-      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-        <div>Loading...</div>
-      </div>
-    );
-  }
-
-  // Show static fallback for problematic browsers
-  if (isProblematicBrowser) {
-    return <StaticFallback />;
-  }
-
-  // Show full Next.js app for other browsers
+  // Show full Next.js app for all browsers
   return (
     <div className="min-h-screen bg-white text-slate-800">
       {/* Header */}
@@ -153,17 +66,7 @@ export default function Page() {
               <div className="flex items-center gap-2"><HeartHandshake className="h-5 w-5 text-[#0A3C5F]"/> Family‑centred</div>
             </div>
           </div>
-          {!isProblematicBrowser ? <ReferralForm /> : (
-            <div style={{ padding: '20px', backgroundColor: '#f8f9fa', borderRadius: '8px', border: '1px solid #dee2e6' }}>
-              <h3 style={{ color: '#0A3C5F', marginTop: '0', marginBottom: '1rem' }}>Rapid Referral</h3>
-              <p style={{ marginBottom: '1rem' }}>To make a referral, please contact us directly:</p>
-              <div style={{ marginBottom: '1rem' }}>
-                <p><strong>Phone:</strong> <a href="tel:0433778876" style={{ color: '#0A3C5F' }}>0433 778 876</a></p>
-                <p><strong>Email:</strong> <a href="mailto:NP@GRACEIntegratedHealth.com.au" style={{ color: '#0A3C5F' }}>NP@GRACEIntegratedHealth.com.au</a></p>
-              </div>
-              <p style={{ fontSize: '0.9rem', color: '#666' }}>Include resident details, recent notes, and medication chart.</p>
-            </div>
-          )}
+          <ReferralForm />
         </div>
       </section>
 
@@ -250,17 +153,7 @@ export default function Page() {
                 <div className="flex items-center gap-2"><MapPin className="h-5 w-5 text-[#0A3C5F]"/> Port Macquarie, NSW</div>
               </div>
             </div>
-            {!isProblematicBrowser ? <ContactForm /> : (
-              <div style={{ padding: '20px', backgroundColor: '#f8f9fa', borderRadius: '8px', border: '1px solid #dee2e6' }}>
-                <h3 style={{ color: '#0A3C5F', marginTop: '0', marginBottom: '1rem' }}>Send a message</h3>
-                <p style={{ marginBottom: '1rem' }}>Have a resident who would benefit from a comprehensive review?</p>
-                <div style={{ marginBottom: '1rem' }}>
-                  <p><strong>Phone:</strong> <a href="tel:0433778876" style={{ color: '#0A3C5F' }}>0433 778 876</a></p>
-                  <p><strong>Email:</strong> <a href="mailto:NP@GRACEIntegratedHealth.com.au" style={{ color: '#0A3C5F' }}>NP@GRACEIntegratedHealth.com.au</a></p>
-                </div>
-                <p style={{ fontSize: '0.9rem', color: '#666' }}>We'll respond within one business day.</p>
-              </div>
-            )}
+            <ContactForm />
           </div>
         </div>
       </section>
