@@ -71,15 +71,23 @@ export default function Page() {
 
   useEffect(() => {
     try {
-      // Detect problematic browsers
+      // Detect problematic browsers and devices
       const userAgent = navigator.userAgent;
       const isSamsung = /Samsung|SM-/i.test(userAgent);
       const isAndroid = /Android/i.test(userAgent);
       const isGoogleWebView = /Google.*Mobile|Googlebot|Google WebView|GoogleApp|GoogleSearchApp/i.test(userAgent);
       const isGoogleBrowser = /Chrome\/.*Mobile.*Google/i.test(userAgent) || /Google/i.test(userAgent);
       
-      // Be more aggressive with Android detection
-      if (isSamsung || isGoogleWebView || (isAndroid && isGoogleBrowser) || isAndroid) {
+      // Check for mobile phone specifically (not tablet)
+      const isMobilePhone = /Mobile|Android.*Mobile/i.test(userAgent) && !/Tablet|iPad/i.test(userAgent);
+      
+      // Check for potential JavaScript issues
+      const hasMemoryIssues = (navigator as any).deviceMemory && (navigator as any).deviceMemory < 4; // Less than 4GB RAM
+      const isOldAndroid = /Android [1-6]\./i.test(userAgent); // Android 6 and below
+      
+      // More comprehensive detection
+      if (isSamsung || isGoogleWebView || (isAndroid && isGoogleBrowser) || 
+          (isAndroid && isMobilePhone) || hasMemoryIssues || isOldAndroid) {
         setIsProblematicBrowser(true);
       }
       setIsLoading(false);
@@ -145,7 +153,17 @@ export default function Page() {
               <div className="flex items-center gap-2"><HeartHandshake className="h-5 w-5 text-[#0A3C5F]"/> Family‑centred</div>
             </div>
           </div>
-          <ReferralForm />
+          {!isProblematicBrowser ? <ReferralForm /> : (
+            <div style={{ padding: '20px', backgroundColor: '#f8f9fa', borderRadius: '8px', border: '1px solid #dee2e6' }}>
+              <h3 style={{ color: '#0A3C5F', marginTop: '0', marginBottom: '1rem' }}>Rapid Referral</h3>
+              <p style={{ marginBottom: '1rem' }}>To make a referral, please contact us directly:</p>
+              <div style={{ marginBottom: '1rem' }}>
+                <p><strong>Phone:</strong> <a href="tel:0433778876" style={{ color: '#0A3C5F' }}>0433 778 876</a></p>
+                <p><strong>Email:</strong> <a href="mailto:NP@GRACEIntegratedHealth.com.au" style={{ color: '#0A3C5F' }}>NP@GRACEIntegratedHealth.com.au</a></p>
+              </div>
+              <p style={{ fontSize: '0.9rem', color: '#666' }}>Include resident details, recent notes, and medication chart.</p>
+            </div>
+          )}
         </div>
       </section>
 
@@ -232,7 +250,17 @@ export default function Page() {
                 <div className="flex items-center gap-2"><MapPin className="h-5 w-5 text-[#0A3C5F]"/> Port Macquarie, NSW</div>
               </div>
             </div>
-            <ContactForm />
+            {!isProblematicBrowser ? <ContactForm /> : (
+              <div style={{ padding: '20px', backgroundColor: '#f8f9fa', borderRadius: '8px', border: '1px solid #dee2e6' }}>
+                <h3 style={{ color: '#0A3C5F', marginTop: '0', marginBottom: '1rem' }}>Send a message</h3>
+                <p style={{ marginBottom: '1rem' }}>Have a resident who would benefit from a comprehensive review?</p>
+                <div style={{ marginBottom: '1rem' }}>
+                  <p><strong>Phone:</strong> <a href="tel:0433778876" style={{ color: '#0A3C5F' }}>0433 778 876</a></p>
+                  <p><strong>Email:</strong> <a href="mailto:NP@GRACEIntegratedHealth.com.au" style={{ color: '#0A3C5F' }}>NP@GRACEIntegratedHealth.com.au</a></p>
+                </div>
+                <p style={{ fontSize: '0.9rem', color: '#666' }}>We'll respond within one business day.</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
