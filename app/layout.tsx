@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   },
   metadataBase: new URL('https://www.graceintegratedhealth.com.au'),
   alternates: {
-    canonical: 'https://www.graceintegratedhealth.com.au',
+    canonical: 'https://www.graceintegratedhealth.com.au/',
   },
   openGraph: {
     title: 'GRACE Integrated Health | Nurse practitioner-led Aged Care Services',
