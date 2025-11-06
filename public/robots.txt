@@ -5,6 +5,15 @@ Disallow: /admin/
 Disallow: /debug/
 Disallow: /test/
 
+# Block old static HTML files (legacy files, not part of Next.js app)
+Disallow: /404.html
+Disallow: /index.html
+Disallow: /default.html
+Disallow: /fallback.html
+Disallow: /root.html
+Disallow: /simple.html
+Disallow: /android-test.html
+
 # Block Azure staging domains
 User-agent: *
 Disallow: /graceintegratedhealth-g7ewbyc2eghhezga.australiaeast-01.azurewebsites.net/
