@@ -1,8 +1,11 @@
-export const metadata = {
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
   title: 'Privacy Policy | GRACE Integrated Health',
   description: 'Privacy Policy for GRACE Integrated Health - Geriatric Residential Aged Care Evaluations',
+  metadataBase: new URL('https://www.graceintegratedhealth.com.au'),
   alternates: {
-    canonical: '/privacy',
+    canonical: 'https://www.graceintegratedhealth.com.au/privacy/',
   },
 };
 

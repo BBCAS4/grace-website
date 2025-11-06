@@ -78,10 +78,15 @@
    - Check Node.js version matches Azure runtime (18 LTS)
    - Ensure all dependencies are in package.json
 
-2. **App won't start**:
+2. **App won't start / 403 Error - Web app is stopped**:
+   - **Most Common Fix**: In Azure Portal, go to your App Service → Overview → Click "Start" button if the app is stopped
    - Check logs in Azure Portal → Log stream
    - Ensure you're using Linux App Service (not Windows)
-   - Verify startup command is set to `./startup.sh`
+   - Verify startup command is set correctly:
+     - **Option 1**: Set to `npm start` (recommended - uses server.js)
+     - **Option 2**: Set to `./startup.sh` (alternative - uses startup script)
+   - Ensure the app has been built: `npm run build` must complete successfully
+   - Verify Node.js version matches: Go to Configuration → General settings → Stack settings → Node version should be 18.x or 20.x
 
 3. **Environment variables not working**:
    - Ensure they're set in Azure Configuration

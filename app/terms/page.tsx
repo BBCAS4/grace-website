@@ -5,8 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/ca
 export const metadata: Metadata = {
   title: 'Terms of Service | GRACE Integrated Health',
   description: 'Terms of Service for GRACE Integrated Health - Geriatric Residential Aged Care Evaluations',
+  metadataBase: new URL('https://www.graceintegratedhealth.com.au'),
   alternates: {
-    canonical: '/terms',
+    canonical: 'https://www.graceintegratedhealth.com.au/terms/',
   },
 };
 

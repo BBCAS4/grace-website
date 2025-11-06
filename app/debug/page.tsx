@@ -1,3 +1,13 @@
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Debug Page',
+  robots: {
+    index: false,
+    follow: false,
+  },
+};
+
 export default function DebugPage() {
   return (
     <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>

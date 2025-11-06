@@ -8,6 +8,9 @@ if [ -z "$PORT" ]; then
     export PORT=8080
 fi
 
+# Set Node environment
+export NODE_ENV=production
+
 # Change to the app directory
 cd /home/site/wwwroot
 
@@ -15,37 +18,27 @@ cd /home/site/wwwroot
 echo "Current directory contents:"
 ls -la
 
-# Check if standalone directory exists
-if [ -d ".next/standalone" ]; then
-    echo "Found standalone directory, changing to it..."
-    cd .next/standalone
-    echo "Standalone directory contents:"
-    ls -la
-else
-    echo "Standalone directory not found, staying in root..."
-fi
-
-# Start the Next.js application
+# Start the Next.js application using npm start
+# This will use the server.js file in the root which handles both standalone and standard modes
 echo "Starting Node.js application on port $PORT..."
 
-# Try npm start first (uses package.json start script)
 if [ -f "package.json" ]; then
     echo "Found package.json, using npm start..."
     npm start
-else
-    echo "package.json not found, trying direct server.js..."
+elif [ -f "server.js" ]; then
+    echo "Found server.js, starting application..."
+    node server.js
+elif [ -d ".next/standalone" ]; then
+    echo "Found standalone directory, starting from there..."
+    cd .next/standalone
     if [ -f "server.js" ]; then
-        echo "Found server.js, starting application..."
         node server.js
     else
-        echo "server.js not found, trying alternative paths..."
-        if [ -f ".next/server.js" ]; then
-            echo "Found .next/server.js, starting application..."
-            node .next/server.js
-        else
-            echo "No server.js found. Available files:"
-            find . -name "*.js" -type f | head -10
-            exit 1
-        fi
+        echo "server.js not found in standalone directory"
+        exit 1
     fi
+else
+    echo "No valid startup method found. Available files:"
+    find . -maxdepth 2 -name "*.js" -type f | head -10
+    exit 1
 fi
