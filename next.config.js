@@ -26,9 +26,10 @@ const nextConfig = {
     maxInactiveAge: 25 * 1000,
     pagesBufferLength: 2,
   },
-  redirects: async () => {
+  async redirects() {
     return [
-      // Redirect Azure domain to custom domain
+      // Redirect Azure domains to custom domain
+      // Using specific host matching to avoid redirect loops
       {
         source: '/:path*',
         has: [
@@ -38,9 +39,8 @@ const nextConfig = {
           },
         ],
         destination: 'https://www.graceintegratedhealth.com.au/:path*',
-        permanent: true, // 301 redirect
+        permanent: true,
       },
-      // Add any other Azure subdomain variations if needed
       {
         source: '/:path*',
         has: [
@@ -50,9 +50,20 @@ const nextConfig = {
           },
         ],
         destination: 'https://www.graceintegratedhealth.com.au/:path*',
-        permanent: true, // 301 redirect
+        permanent: true,
       },
-      // Handle root domain - redirect to www for consistency
+      {
+        source: '/:path*',
+        has: [
+          {
+            type: 'host',
+            value: 'graceintegratedhealth-g7ewbyc2eghhezga.australiaeast-01.azurewebsites.net',
+          },
+        ],
+        destination: 'https://www.graceintegratedhealth.com.au/:path*',
+        permanent: true,
+      },
+      // Redirect non-www to www (only if not already www)
       {
         source: '/:path*',
         has: [
@@ -62,7 +73,7 @@ const nextConfig = {
           },
         ],
         destination: 'https://www.graceintegratedhealth.com.au/:path*',
-        permanent: true, // 301 redirect
+        permanent: true,
       },
     ];
   },
