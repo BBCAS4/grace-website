@@ -79,8 +79,24 @@ jobs:
 
     - name: Deploy to Azure Web App
       uses: azure/webapps-deploy@v2
+      id: deploy
       with:
         app-name: ${{ env.AZURE_WEBAPP_NAME }}
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: .next/standalone
+      continue-on-error: false
+      
+    - name: Deployment status message
+      if: failure()
+      run: |
+        echo "::error::Deployment failed with 403 error"
+        echo ""
+        echo "Common causes and fixes:"
+        echo "1. ⚠️  App Service is STOPPED - Go to Azure Portal → Start the app"
+        echo "2. 🔒 IP restrictions enabled - Check Networking → Access restriction"
+        echo "3. 🔑 Invalid publish profile - Re-download and update GitHub secret"
+        echo "4. 🌐 SCM site access restricted - Check Configuration → General settings"
+        echo ""
+        echo "See DEPLOYMENT_403_FIX.md for detailed troubleshooting steps"
+        exit 1
 
